@@ -1,0 +1,16 @@
+<!-- <div class="col-lg-4"> -->
+    <div class="product">
+        <div class="title">
+            <img src="{{SERVER_PATH}}/storage/{{product?.images}}" alt="">
+        </div>
+        <div class="body">
+                <p class="productName"> {{product?.name}} </p>
+                <p class="productDesc"> {{product?.item_description}} </p>
+                <p> INR {{product?.price}} </p>
+        </div>
+        <div class="footer">
+                <button class="btn btn-success btn-with-icon btn-block" (click)="addProductToCart(product?.id)">
+                        <i class="typcn typcn-shopping-cart"></i> add</button>
+        </div>
+    </div>
+<!-- </div> -->

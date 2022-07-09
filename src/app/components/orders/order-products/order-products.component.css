@@ -1,0 +1,23 @@
+.product-items{
+    display: flex;
+    padding: 8px;
+    margin: 5px;
+    font-size: 16px;
+}
+
+.product-items .product-list{
+    width: 20%;
+    color: #212529;
+    text-align: left
+}
+
+.toggleBtn{
+    font-size: 16px;
+    margin-left: 5px;
+    padding: 8px;
+    border: 1px solid #eee;
+}
+
+.mat-slide-toggle {
+  padding-left: 1rem;
+}

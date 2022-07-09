@@ -1,0 +1,863 @@
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h3 class="modal-title">Add Prescription</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancel()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <div>
+            <mat-tab-group [selectedIndex]="selected">
+                <mat-tab disabled="true" label="Power Details"> 
+                    <div class="tab-content">
+                        <form [formGroup]="prescriptionForm" (ngSubmit)="precriptionFormSubmit()">
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Item Type</mat-label>
+                                <mat-select 
+                                    formControlName="prescritionType" 
+                                    (selectionChange)="prescriptionTypeChange($event.value)"
+                                    >
+                                    <mat-option *ngFor="let prescritionType of prescritionTypes;" [value]="prescritionType">
+                                        <span>{{ prescritionType }}</span> 
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formValidate?.prescritionType?.errors?.required">This field is required.</mat-error>
+                                <mat-error *ngIf="formValidate?.prescritionType?.errors?.serverError"> {{ formValidate?.prescritionType?.errors?.serverError }} </mat-error>
+                            </mat-form-field>
+
+                            <div formGroupName="ophthalmic_lens"  *ngIf="formValidate?.prescritionType.value == 'Ophthalmic Lens'">
+
+                                <table class="table table-bordered" formGroupName="right_eye">
+                                    <thead>
+                                        <tr>
+                                            <th>Right Eye</th>
+                                            <th>SPH</th>
+                                            <th>CYL</th>
+                                            <th>AXIS</th>
+                                            <th>prism</th>                                      
+                                            <th>add</th>
+                                            <th>pd</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>    
+                                        <tr formGroupName="distance">
+                                            <td width="100px">
+                                                <span>Distance </span>
+                                            </td>
+                                            <td>
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>Sph</mat-label>
+                                                        <mat-select formControlName="sphere">
+                                                            <mat-option *ngFor="let power_measurement of power_measurements;" [value]="power_measurement">
+                                                                <span>{{ power_measurement }}</span> 
+                                                            </mat-option>
+                                                        </mat-select>
+                                                        <mat-error *ngIf="rightEyeDistanceValidate?.sphere?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="rightEyeDistanceValidate?.sphere?.errors?.serverError"> {{ rightEyeDistanceValidate?.sphere?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                            </td>
+                                            <td>
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>cyl</mat-label>
+                                                        <mat-select formControlName="cylinder">
+                                                                <mat-option *ngFor="let power_measurement of power_measurements;" [value]="power_measurement">
+                                                                    <span>{{ power_measurement }}</span> 
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        <mat-error *ngIf="rightEyeDistanceValidate?.cylinder?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="rightEyeDistanceValidate?.cylinder?.errors?.serverError"> {{ rightEyeDistanceValidate?.cylinder?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                            </td>
+                                            <td>
+                                                
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>axis</mat-label>
+                                                        <input type="text" formControlName="axis" matInput>
+                                                        <mat-error *ngIf="rightEyeDistanceValidate?.axis?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="rightEyeDistanceValidate?.axis?.errors?.serverError"> {{ rightEyeDistanceValidate?.axis?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                            </td>
+                                            <td>
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>prism</mat-label>
+                                                        <input type="text" formControlName="prism" matInput>
+                                                        <mat-error *ngIf="rightEyeDistanceValidate?.prism?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="rightEyeDistanceValidate?.prism?.errors?.serverError"> {{ rightEyeDistanceValidate?.prism?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                            </td>
+                                            <td>
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>add</mat-label>
+                                                        <input type="text" formControlName="add" matInput>
+                                                        <mat-error *ngIf="rightEyeDistanceValidate?.add?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="rightEyeDistanceValidate?.add?.errors?.serverError"> {{ rightEyeDistanceValidate?.add?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>pd</mat-label>
+                                                    <input type="text" formControlName="pd" matInput>
+                                                    <mat-error *ngIf="rightEyeDistanceValidate?.pd?.errors?.required">This field is required.</mat-error>
+                                                    <mat-error *ngIf="rightEyeDistanceValidate?.pd?.errors?.serverError"> {{ rightEyeDistanceValidate?.pd?.errors?.serverError }} </mat-error>
+                                                </mat-form-field>
+                                            </td>
+                                        </tr>      
+                                        <tr formGroupName="near">
+                                                <td width="100px">
+                                                    <span>Near </span>
+                                                </td>
+                                                <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label>Sph</mat-label>
+                                                            <mat-select formControlName="sphere">
+                                                                <mat-option *ngFor="let power_measurement of power_measurements;" [value]="power_measurement">
+                                                                    <span>{{ power_measurement }}</span> 
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error *ngIf="rightEyeNearValidate?.sphere?.errors?.required">This field is required.</mat-error>
+                                                            <mat-error *ngIf="rightEyeNearValidate?.sphere?.errors?.serverError"> {{ rightEyeNearValidate?.sphere?.errors?.serverError }} </mat-error>
+                                                        </mat-form-field>
+                                                </td>
+                                                <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label>cyl</mat-label>
+                                                            <mat-select formControlName="cylinder">
+                                                                    <mat-option *ngFor="let power_measurement of power_measurements;" [value]="power_measurement">
+                                                                        <span>{{ power_measurement }}</span> 
+                                                                    </mat-option>
+                                                                </mat-select>
+                                                            <mat-error *ngIf="rightEyeNearValidate?.cylinder?.errors?.required">This field is required.</mat-error>
+                                                            <mat-error *ngIf="rightEyeNearValidate?.cylinder?.errors?.serverError"> {{ rightEyeNearValidate?.cylinder?.errors?.serverError }} </mat-error>
+                                                        </mat-form-field>
+                                                </td>
+                                                <td>
+                                                    
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label>axis</mat-label>
+                                                            <input type="text" formControlName="axis" matInput>
+                                                            <mat-error *ngIf="rightEyeNearValidate?.axis?.errors?.required">This field is required.</mat-error>
+                                                            <mat-error *ngIf="rightEyeNearValidate?.axis?.errors?.serverError"> {{ rightEyeNearValidate?.axis?.errors?.serverError }} </mat-error>
+                                                        </mat-form-field>
+                                                </td>
+                                                <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label>prism</mat-label>
+                                                            <input type="text" formControlName="prism" matInput>
+                                                            <mat-error *ngIf="rightEyeNearValidate?.prism?.errors?.required">This field is required.</mat-error>
+                                                            <mat-error *ngIf="rightEyeNearValidate?.prism?.errors?.serverError"> {{ rightEyeNearValidate?.prism?.errors?.serverError }} </mat-error>
+                                                        </mat-form-field>
+                                                </td>
+                                                <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label>add</mat-label>
+                                                            <input type="text" formControlName="add" matInput>
+                                                            <mat-error *ngIf="rightEyeNearValidate?.add?.errors?.required">This field is required.</mat-error>
+                                                            <mat-error *ngIf="rightEyeNearValidate?.add?.errors?.serverError"> {{ rightEyeNearValidate?.add?.errors?.serverError }} </mat-error>
+                                                        </mat-form-field>
+                                                </td>
+                                                <td>
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>pd</mat-label>
+                                                        <input type="text" formControlName="pd" matInput>
+                                                        <mat-error *ngIf="rightEyeNearValidate?.pd?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="rightEyeNearValidate?.pd?.errors?.serverError"> {{ rightEyeNearValidate?.pd?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                                </td>
+                                            </tr>                                        
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-bordered" formGroupName="left_eye">
+                                    <thead>
+                                        <tr>
+                                            <th>Left Eye</th>
+                                            <th>SPH</th>
+                                            <th>CYL</th>
+                                            <th>AXIS</th>
+                                            <th>prism</th>                                      
+                                            <th>add</th>
+                                            <th>pd</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>    
+                                        <tr formGroupName="distance">
+                                            <td width="100px">
+                                                <span>Distance</span>
+                                            </td>
+                                            <td>
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>Sph</mat-label>
+                                                        <mat-select formControlName="sphere">
+                                                            <mat-option *ngFor="let power_measurement of power_measurements;" [value]="power_measurement">
+                                                                <span>{{ power_measurement }}</span> 
+                                                            </mat-option>
+                                                        </mat-select>
+                                                        <mat-error *ngIf="leftEyeDistanceValidate?.sphere?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="leftEyeDistanceValidate?.sphere?.errors?.serverError"> {{ leftEyeDistanceValidate?.sphere?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                            </td>
+                                            <td>
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>cyl</mat-label>
+                                                        <mat-select formControlName="cylinder">
+                                                                <mat-option *ngFor="let power_measurement of power_measurements;" [value]="power_measurement">
+                                                                    <span>{{ power_measurement }}</span> 
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        <mat-error *ngIf="leftEyeDistanceValidate?.cylinder?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="leftEyeDistanceValidate?.cylinder?.errors?.serverError"> {{ leftEyeDistanceValidate?.cylinder?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                            </td>
+                                            <td>
+                                                
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>axis</mat-label>
+                                                        <input type="text" formControlName="axis" matInput>
+                                                        <mat-error *ngIf="leftEyeDistanceValidate?.axis?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="leftEyeDistanceValidate?.axis?.errors?.serverError"> {{ leftEyeDistanceValidate?.axis?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                            </td>
+                                            <td>
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>prism</mat-label>
+                                                        <input type="text" formControlName="prism" matInput>
+                                                        <mat-error *ngIf="leftEyeDistanceValidate?.prism?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="leftEyeDistanceValidate?.prism?.errors?.serverError"> {{ leftEyeDistanceValidate?.prism?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                            </td>
+                                            <td>
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>add</mat-label>
+                                                        <input type="text" formControlName="add" matInput>
+                                                        <mat-error *ngIf="leftEyeDistanceValidate?.add?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="leftEyeDistanceValidate?.add?.errors?.serverError"> {{ leftEyeDistanceValidate?.add?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>pd</mat-label>
+                                                    <input type="text" formControlName="pd" matInput>
+                                                    <mat-error *ngIf="leftEyeDistanceValidate?.pd?.errors?.required">This field is required.</mat-error>
+                                                    <mat-error *ngIf="leftEyeDistanceValidate?.pd?.errors?.serverError"> {{ leftEyeDistanceValidate?.pd?.errors?.serverError }} </mat-error>
+                                                </mat-form-field>
+                                            </td>
+                                        </tr>      
+                                        <tr formGroupName="near">
+                                                <td width="100px">
+                                                    <span>Near </span>
+                                                </td>
+                                                <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label>Sph</mat-label>
+                                                            <mat-select formControlName="sphere">
+                                                                <mat-option *ngFor="let power_measurement of power_measurements;" [value]="power_measurement">
+                                                                    <span>{{ power_measurement }}</span> 
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error *ngIf="leftEyeNearValidate?.sphere?.errors?.required">This field is required.</mat-error>
+                                                            <mat-error *ngIf="leftEyeNearValidate?.sphere?.errors?.serverError"> {{ leftEyeNearValidate?.sphere?.errors?.serverError }} </mat-error>
+                                                        </mat-form-field>
+                                                </td>
+                                                <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label>cyl</mat-label>
+                                                            <mat-select formControlName="cylinder">
+                                                                    <mat-option *ngFor="let power_measurement of power_measurements;" [value]="power_measurement">
+                                                                        <span>{{ power_measurement }}</span> 
+                                                                    </mat-option>
+                                                                </mat-select>
+                                                            <mat-error *ngIf="leftEyeNearValidate?.cylinder?.errors?.required">This field is required.</mat-error>
+                                                            <mat-error *ngIf="leftEyeNearValidate?.cylinder?.errors?.serverError"> {{ leftEyeNearValidate?.cylinder?.errors?.serverError }} </mat-error>
+                                                        </mat-form-field>
+                                                </td>
+                                                <td>
+                                                    
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label>axis</mat-label>
+                                                            <input type="text" formControlName="axis" matInput>
+                                                            <mat-error *ngIf="leftEyeNearValidate?.axis?.errors?.required">This field is required.</mat-error>
+                                                            <mat-error *ngIf="leftEyeNearValidate?.axis?.errors?.serverError"> {{ leftEyeNearValidate?.axis?.errors?.serverError }} </mat-error>
+                                                        </mat-form-field>
+                                                </td>
+                                                <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label>prism</mat-label>
+                                                            <input type="text" formControlName="prism" matInput>
+                                                            <mat-error *ngIf="leftEyeNearValidate?.prism?.errors?.required">This field is required.</mat-error>
+                                                            <mat-error *ngIf="leftEyeNearValidate?.prism?.errors?.serverError"> {{ leftEyeNearValidate?.prism?.errors?.serverError }} </mat-error>
+                                                        </mat-form-field>
+                                                </td>
+                                                <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label>add</mat-label>
+                                                            <input type="text" formControlName="add" matInput>
+                                                            <mat-error *ngIf="leftEyeNearValidate?.add?.errors?.required">This field is required.</mat-error>
+                                                            <mat-error *ngIf="leftEyeNearValidate?.add?.errors?.serverError"> {{ leftEyeNearValidate?.add?.errors?.serverError }} </mat-error>
+                                                        </mat-form-field>
+                                                </td>
+                                                <td>
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>pd</mat-label>
+                                                        <input type="text" formControlName="pd" matInput>
+                                                        <mat-error *ngIf="leftEyeNearValidate?.pd?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="leftEyeNearValidate?.pd?.errors?.serverError"> {{ leftEyeNearValidate?.pd?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                                </td>
+                                            </tr>                                        
+                                    </tbody>
+                                </table>
+
+                                <p *ngIf="validation" class="mat-error">{{errorMsg}}</p>
+                          
+                            </div>
+
+                            <div formGroupName="contact_lens" *ngIf="formValidate?.prescritionType.value == 'Contact Lens'">
+                                <table class="table table-bordered" >
+                                    <thead>
+                                        <tr>
+                                            <th>CLRX</th>
+                                            <th>SPH</th>
+                                            <th>CYL</th>
+                                            <th>AXIS</th>
+                                            <th>B.C</th>                                      
+                                            <th>Dia</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>    
+                                        <tr formGroupName="right_eye">
+                                            <td width="100px">
+                                                <span>Right Eye</span>
+                                            </td>
+                                          
+                                            <td>
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>sph</mat-label>
+                                                        <mat-select formControlName="sph">
+                                                            <mat-option *ngFor="let power_measurement of power_measurements;" [value]="power_measurement">
+                                                                <span>{{ power_measurement }}</span> 
+                                                            </mat-option>
+                                                        </mat-select>
+                                                        <mat-error *ngIf="contactLensRightEyeValidate?.sph?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="contactLensRightEyeValidate?.sph?.errors?.serverError"> {{ contactLensRightEyeValidate?.sph?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                            </td>
+                                            <td>
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>cyl</mat-label>
+                                                        <mat-select formControlName="cyl">
+                                                                <mat-option *ngFor="let power_measurement of power_measurements;" [value]="power_measurement">
+                                                                    <span>{{ power_measurement }}</span> 
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        <mat-error *ngIf="contactLensRightEyeValidate?.cyl?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="contactLensRightEyeValidate?.cyl?.errors?.serverError"> {{ contactLensRightEyeValidate?.cyl?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                            </td>
+                                            <td>
+                                                
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>axis</mat-label>
+                                                        <input type="text" formControlName="axis" matInput>
+                                                        <mat-error *ngIf="contactLensRightEyeValidate?.axis?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="contactLensRightEyeValidate?.axis?.errors?.serverError"> {{ contactLensRightEyeValidate?.axis?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                            </td>
+
+                                            <td>
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>bc</mat-label>
+                                                        <input type="text" formControlName="bc" matInput>
+                                                        <mat-error *ngIf="contactLensRightEyeValidate?.bc?.errors?.required">This field is required.</mat-error>
+                                                        <mat-error *ngIf="contactLensRightEyeValidate?.bc?.errors?.serverError"> {{ contactLensRightEyeValidate?.bc?.errors?.serverError }} </mat-error>
+                                                    </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>dia</mat-label>
+                                                    <input type="text" formControlName="dia" matInput>
+                                                    <mat-error *ngIf="contactLensRightEyeValidate?.dia?.errors?.required">This field is required.</mat-error>
+                                                    <mat-error *ngIf="contactLensRightEyeValidate?.dia?.errors?.serverError"> {{ contactLensRightEyeValidate?.dia?.errors?.serverError }} </mat-error>
+                                                </mat-form-field>
+                                            </td>
+                                            
+                                        </tr>      
+                                        <tr formGroupName="left_eye">
+                                                <td width="100px">
+                                                        <span>Left Eye</span>
+                                                    </td>
+                                                   
+                                                    <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>sph</mat-label>
+                                                                <mat-select formControlName="sph">
+                                                                    <mat-option *ngFor="let power_measurement of power_measurements;" [value]="power_measurement">
+                                                                        <span>{{ power_measurement }}</span> 
+                                                                    </mat-option>
+                                                                </mat-select>
+                                                                <mat-error *ngIf="contactLensLeftEyeValidate?.sph?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="contactLensLeftEyeValidate?.sph?.errors?.serverError"> {{ contactLensLeftEyeValidate?.sph?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>cyl</mat-label>
+                                                                <mat-select formControlName="cyl">
+                                                                        <mat-option *ngFor="let power_measurement of power_measurements;" [value]="power_measurement">
+                                                                            <span>{{ power_measurement }}</span> 
+                                                                        </mat-option>
+                                                                    </mat-select>
+                                                                <mat-error *ngIf="contactLensLeftEyeValidate?.cyl?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="contactLensLeftEyeValidate?.cyl?.errors?.serverError"> {{ contactLensLeftEyeValidate?.cyl?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>axis</mat-label>
+                                                                <input type="text" formControlName="axis" matInput>
+                                                                <mat-error *ngIf="contactLensLeftEyeValidate?.axis?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="contactLensLeftEyeValidate?.axis?.errors?.serverError"> {{ contactLensLeftEyeValidate?.axis?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                    </td>
+
+                                                    <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>bc</mat-label>
+                                                                <input type="text" formControlName="bc" matInput>
+                                                                <mat-error *ngIf="contactLensLeftEyeValidate?.bc?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="contactLensLeftEyeValidate?.bc?.errors?.serverError"> {{ contactLensLeftEyeValidate?.bc?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label>dia</mat-label>
+                                                            <input type="text" formControlName="dia" matInput>
+                                                            <mat-error *ngIf="contactLensLeftEyeValidate?.dia?.errors?.required">This field is required.</mat-error>
+                                                            <mat-error *ngIf="contactLensLeftEyeValidate?.dia?.errors?.serverError"> {{ contactLensLeftEyeValidate?.dia?.errors?.serverError }} </mat-error>
+                                                        </mat-form-field>
+                                                    </td>
+                                            </tr>                                        
+                                    </tbody>
+                                </table>
+                                <p *ngIf="validation" class="mat-error">{{errorMsg}}</p>
+                            </div>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Prescription Validity</mat-label>
+                                <mat-select formControlName="prescriptionValidity" >
+                                    <mat-option *ngFor="let validity of prescriptionValidity;" [value]="validity">
+                                        <span>{{ validity }}</span> 
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formValidate?.prescriptionValidity?.errors?.required">This field is required.</mat-error>
+                                <mat-error *ngIf="formValidate?.prescriptionValidity?.errors?.serverError"> {{ formValidate?.prescriptionValidity?.errors?.serverError }} </mat-error>
+                            </mat-form-field>
+                            <br/>
+                           
+                            <mat-form-field appearance="outline">
+                                <mat-label>Prescribed By</mat-label>
+                                <input type="text" formControlName="prescribed_by" matInput>
+                                <mat-error *ngIf="formValidate?.prescribed_by?.errors?.required">This field is required.</mat-error>
+                                <mat-error *ngIf="formValidate?.prescribed_by?.errors?.serverError"> {{ formValidate?.prescribed_by?.errors?.serverError }} </mat-error>
+                            </mat-form-field>
+
+                            <br/>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Remarks</mat-label>
+                                <textarea matInput formControlName="remarks" ></textarea>
+                                <mat-error *ngIf="formValidate?.remarks?.errors?.required">This field is required.</mat-error>
+                                <mat-error *ngIf="formValidate?.remarks?.errors?.serverError"> {{ formValidate?.remarks?.errors?.serverError }} </mat-error>
+                            </mat-form-field>
+                           
+                            <input type="hidden" formControlName="attachment">
+                             
+                            <app-file-upload requiredFileType="image/png" (fileUploaded)="addAttachment($event)"></app-file-upload> 
+
+                            <div class="footer-block text-center">
+                                <div class="button-group">
+                                    <button type="submit" [disabled]="prescriptionForm.invalid"  (click)="tabChange(1)" mat-raised-button class="btn-int-blue"> Submit </button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </mat-tab>
+                <!-- <mat-tab disabled="true" label="Lens Details"> 
+                       <div class="tab-content">
+                           <form class="lensForm" [formGroup]="lensForm">
+
+                              <div class="row">
+                                  <div class="col-lg-12">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label> Life Style</mat-label>
+                                        <mat-select formControlName="life_style" >
+                                            <mat-option *ngFor="let life_style of life_styles;" [value]="life_style?.id">
+                                                <span>{{ life_style?.name }}</span> 
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="lensFormValidate?.life_style?.errors?.required">This field is required.</mat-error>
+                                        <mat-error *ngIf="lensFormValidate?.life_style?.errors?.serverError"> {{ lensFormValidate?.life_style?.errors?.serverError }} </mat-error>
+                                    </mat-form-field> 
+                                   
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Lens Recommended</mat-label>
+                                        <mat-select formControlName="lens_recommended" >
+                                            <mat-option *ngFor="let lens_recommended of lens_recommendeds;" [value]="lens_recommended?.id">
+                                                <span>{{ lens_recommended?.name }} - INR {{ lens_recommended?.price }}</span> 
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="lensFormValidate?.lens_recommended?.errors?.required">This field is required.</mat-error>
+                                        <mat-error *ngIf="lensFormValidate?.lens_recommended?.errors?.serverError"> {{ lensFormValidate?.lens_recommended?.errors?.serverError }} </mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline">
+                                        <mat-label> Tint Type</mat-label>
+                                        <mat-select formControlName="tint_type"   (selectionChange)="tintTypeChange($event.value)">
+                                            <mat-option *ngFor="let tint_type of tint_types;" [value]="tint_type?.name">
+                                                <span>{{ tint_type?.name }}</span> 
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="lensFormValidate?.tint_type?.errors?.required">This field is required.</mat-error>
+                                        <mat-error *ngIf="lensFormValidate?.tint_type?.errors?.serverError"> {{ lensFormValidate?.tint_type?.errors?.serverError }} </mat-error>
+                                    </mat-form-field>
+    
+                                    <mat-form-field appearance="outline" *ngIf="lensFormValidate?.tint_type?.value == 'Colour'">
+                                        <mat-label>Colour</mat-label>
+                                        <mat-select formControlName="colour" >
+                                            <mat-option *ngFor="let colour of colours;" [value]="colour?.id">
+                                                <span>{{ colour?.name }} - INR {{ colour?.price }}</span> 
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="lensFormValidate?.colour?.errors?.required">This field is required.</mat-error>
+                                        <mat-error *ngIf="lensFormValidate?.colour?.errors?.serverError"> {{ lensFormValidate?.colour?.errors?.serverError }} </mat-error>
+                                    </mat-form-field>
+    
+                                    <mat-form-field appearance="outline" *ngIf="lensFormValidate?.tint_type?.value == 'Gradient'">
+                                        <mat-label>Gradient</mat-label>
+                                        <mat-select formControlName="gradient" >
+                                            <mat-option *ngFor="let gradient of gradients;" [value]="gradient?.id">
+                                                <span>{{ gradient?.name }} - INR {{ gradient?.price }}</span> 
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="lensFormValidate?.gradient?.errors?.required">This field is required.</mat-error>
+                                        <mat-error *ngIf="lensFormValidate?.gradient?.errors?.serverError"> {{ lensFormValidate?.gradient?.errors?.serverError }} </mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Mirror Coating</mat-label>
+                                        <mat-select formControlName="mirror_coating" >
+                                            <mat-option *ngFor="let mirror_coating of mirror_coatings;" [value]="mirror_coating?.id">
+                                                <span>{{ mirror_coating?.name }} - INR {{ mirror_coating?.price }}</span> 
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="lensFormValidate?.mirror_coating?.errors?.required">This field is required.</mat-error>
+                                        <mat-error *ngIf="lensFormValidate?.mirror_coating?.errors?.serverError"> {{ lensFormValidate?.mirror_coating?.errors?.serverError }} </mat-error>
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-lg-6"></div>
+                              </div>
+                               
+                                <div class="footer-block text-center">
+                                    <div class="button-group">
+                                        <button type="submit" (click)="tabChange(0)"  mat-raised-button class="btn-int-blue"> previous </button>
+                                        <button type="submit" [disabled]="lensForm.invalid" (click)="tabChange(2)"  mat-raised-button class="btn-int-blue"> Next </button>
+                                    </div>
+                                </div>
+                           </form>
+                       </div>
+                </mat-tab>
+                <mat-tab disabled="true" label="Measurements"> 
+                    <div class="tab-content">
+                        <form class="measurementsForm" #myForm="ngForm" [formGroup]="measurementsForm" (ngSubmit)="precriptionFormSubmit()">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label> Diameter</mat-label>
+                                            <mat-select formControlName="diameter" >
+                                                <mat-option *ngFor="let diameter of diameters;" [value]="diameter?.id">
+                                                    <span>{{ diameter?.name }}</span> 
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="measurementsFormValidate?.diameter?.errors?.required">This field is required.</mat-error>
+                                            <mat-error *ngIf="measurementsFormValidate?.diameter?.errors?.serverError"> {{ measurementsFormValidate?.diameter?.errors?.serverError }} </mat-error>
+                                        </mat-form-field> 
+
+                                        <mat-form-field appearance="outline">
+                                            <mat-label> Base curve</mat-label>
+                                            <mat-select formControlName="base_curve" >
+                                                <mat-option *ngFor="let base_curve of base_curves;" [value]="base_curve?.id">
+                                                    <span>{{ base_curve?.name }}</span> 
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="measurementsFormValidate?.base_curve?.errors?.required">This field is required.</mat-error>
+                                            <mat-error *ngIf="measurementsFormValidate?.base_curve?.errors?.serverError"> {{ measurementsFormValidate?.base_curve?.errors?.serverError }} </mat-error>
+                                        </mat-form-field> 
+
+                                        <div formGroupName="precal_values" >
+                                            <img  class="precal-values-imaage" src="assets/images/lens/precal_values_image.png"><br/>
+                                            <table class="table table-bordered" >
+                                                <thead>
+                                                    <tr>
+                                                        <th>PRECAL VALUES</th>
+                                                        <th>PD</th>                                      
+                                                        <th>PH</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>    
+                                                    <tr formGroupName="right_value">
+                                                        <td width="100px">
+                                                            <span>Right</span>
+                                                        </td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>pd</mat-label>
+                                                                <input type="text" formControlName="pd" matInput>
+                                                                <mat-error *ngIf="precalRightValuesValidate?.pd?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="precalRightValuesValidate?.pd?.errors?.serverError"> {{ precalRightValuesValidate?.pd?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>ph</mat-label>
+                                                                <input type="text" formControlName="ph" matInput>
+                                                                <mat-error *ngIf="precalRightValuesValidate?.ph?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="precalRightValuesValidate?.ph?.errors?.serverError"> {{ precalRightValuesValidate?.ph?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        
+                                                    </tr>      
+                                                    <tr formGroupName="left_value">
+                                                            <td width="100px">
+                                                                <span>Left </span>
+                                                            </td>
+                                                            <td>
+                                                                <mat-form-field appearance="outline">
+                                                                    <mat-label>pd</mat-label>
+                                                                    <input type="text" formControlName="pd" matInput>
+                                                                    <mat-error *ngIf="precalLeftValuesValidate?.pd?.errors?.required">This field is required.</mat-error>
+                                                                    <mat-error *ngIf="precalLeftValuesValidate?.pd?.errors?.serverError"> {{ precalLeftValuesValidate?.pd?.errors?.serverError }} </mat-error>
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td>
+                                                                <mat-form-field appearance="outline">
+                                                                    <mat-label>ph</mat-label>
+                                                                    <input type="text" formControlName="ph" matInput>
+                                                                    <mat-error *ngIf="precalLeftValuesValidate?.ph?.errors?.required">This field is required.</mat-error>
+                                                                    <mat-error *ngIf="precalLeftValuesValidate?.ph?.errors?.serverError"> {{ precalLeftValuesValidate?.ph?.errors?.serverError }} </mat-error>
+                                                                </mat-form-field>
+                                                            </td>
+                                                                
+                                                        </tr>                                        
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <mat-form-field appearance="outline">
+                                            <mat-label> Vertex Distance</mat-label>
+                                            <mat-select formControlName="vertex_distance" >
+                                                <mat-option *ngFor="let vertex_distance of vertex_distances;" [value]="vertex_distance?.id">
+                                                    <span>{{ vertex_distance?.name }}</span> 
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="measurementsFormValidate?.vertex_distance?.errors?.required">This field is required.</mat-error>
+                                            <mat-error *ngIf="measurementsFormValidate?.vertex_distance?.errors?.serverError"> {{ measurementsFormValidate?.vertex_distance?.errors?.serverError }} </mat-error>
+                                        </mat-form-field> 
+
+                                        <mat-form-field appearance="outline">
+                                            <mat-label> Pantascopic Angle</mat-label>
+                                            <mat-select formControlName="pantascopic_angle" >
+                                                <mat-option *ngFor="let pantascopic_angle of pantascopic_angles;" [value]="pantascopic_angle?.id">
+                                                    <span>{{ pantascopic_angle?.name }}</span> 
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="measurementsFormValidate?.pantascopic_angle?.errors?.required">This field is required.</mat-error>
+                                            <mat-error *ngIf="measurementsFormValidate?.pantascopic_angle?.errors?.serverError"> {{ measurementsFormValidate?.pantascopic_angle?.errors?.serverError }} </mat-error>
+                                        </mat-form-field> 
+
+                                        <mat-form-field appearance="outline">
+                                            <mat-label> Frame Wrap Angle</mat-label>
+                                            <mat-select formControlName="frame_wrap_angle" >
+                                                <mat-option *ngFor="let frame_wrap_angle of frame_wrap_angles;" [value]="frame_wrap_angle?.id">
+                                                    <span>{{ frame_wrap_angle?.name }}</span> 
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="measurementsFormValidate?.frame_wrap_angle?.errors?.required">This field is required.</mat-error>
+                                            <mat-error *ngIf="measurementsFormValidate?.frame_wrap_angle?.errors?.serverError"> {{ measurementsFormValidate?.frame_wrap_angle?.errors?.serverError }} </mat-error>
+                                        </mat-form-field> 
+
+                                        <mat-form-field appearance="outline">
+                                            <mat-label> Reading Distance</mat-label>
+                                            <mat-select formControlName="reading_distance" >
+                                                <mat-option *ngFor="let reading_distance of reading_distances;" [value]="reading_distance?.id">
+                                                    <span>{{ reading_distance?.name }}</span> 
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="measurementsFormValidate?.reading_distance?.errors?.required">This field is required.</mat-error>
+                                            <mat-error *ngIf="measurementsFormValidate?.reading_distance?.errors?.serverError"> {{ measurementsFormValidate?.reading_distance?.errors?.serverError }} </mat-error>
+                                        </mat-form-field> 
+
+                                        <div formGroupName="thickness" >
+                                            <table class="table table-bordered" >
+                                                <thead>
+                                                    <tr>
+                                                        <th>THICKNESS</th>
+                                                        <th>RIGHT EYE</th>                                      
+                                                        <th>LEFT EYE</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>    
+                                                    <tr formGroupName="center_thickness">
+                                                        <td width="100px">
+                                                            <span>Center Thickness (mm)</span>
+                                                        </td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>right</mat-label>
+                                                                <input type="text" formControlName="right" matInput>
+                                                                <mat-error *ngIf="centerThicknessValidate?.right?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="centerThicknessValidate?.right?.errors?.serverError"> {{ centerThicknessValidate?.right?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>left</mat-label>
+                                                                <input type="text" formControlName="left" matInput>
+                                                                <mat-error *ngIf="centerThicknessValidate?.left?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="centerThicknessValidate?.left?.errors?.serverError"> {{ centerThicknessValidate?.left?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        
+                                                    </tr>      
+                                                    <tr formGroupName="nose_edge_thickness">
+                                                        <td width="100px">
+                                                            <span>Nose Edge Thickness (mm)</span>
+                                                        </td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>right</mat-label>
+                                                                <input type="text" formControlName="right" matInput>
+                                                                <mat-error *ngIf="noseEdgeThicknessValidate?.right?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="noseEdgeThicknessValidate?.right?.errors?.serverError"> {{ noseEdgeThicknessValidate?.right?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>left</mat-label>
+                                                                <input type="text" formControlName="left" matInput>
+                                                                <mat-error *ngIf="noseEdgeThicknessValidate?.left?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="noseEdgeThicknessValidate?.left?.errors?.serverError"> {{ noseEdgeThicknessValidate?.left?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        
+                                                    </tr>  
+                                                    <tr formGroupName="temple_edge_thickness">
+                                                        <td width="100px">
+                                                            <span>Temple Edge Thickness (mm)</span>
+                                                        </td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>right</mat-label>
+                                                                <input type="text" formControlName="right" matInput>
+                                                                <mat-error *ngIf="templeEdgeThicknessValidate?.right?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="templeEdgeThicknessValidate?.right?.errors?.serverError"> {{ templeEdgeThicknessValidate?.right?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>left</mat-label>
+                                                                <input type="text" formControlName="left" matInput>
+                                                                <mat-error *ngIf="templeEdgeThicknessValidate?.left?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="templeEdgeThicknessValidate?.left?.errors?.serverError"> {{ templeEdgeThicknessValidate?.left?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        
+                                                    </tr>                                      
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <br/>
+                                        <label id="example-radio-group-label">Shapes</label> <br/>
+                                        <mat-radio-group class="example-radio-group" formControlName="shapes">
+                                            <mat-radio-button class="example-radio-button" *ngFor="let shape of shapes" [value]="shape?.name">
+                                                <img _ngcontent-kqb-c279="{{shape?.image}}" class="az-img-user" src="assets/images/lens/{{shape?.image}}"><br/>
+                                                {{shape?.name}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                        <mat-error *ngIf="measurementsFormValidate?.shapes?.errors?.required">This field is required.</mat-error>
+                                        <mat-error *ngIf="measurementsFormValidate?.shapes?.errors?.serverError"> {{ measurementsFormValidate?.shapes?.errors?.serverError }} </mat-error>
+                                        <br/>  <br/>
+                                        <label id="example-radio-group-label">Lens Sizes (mm)</label> <br/>
+                                        <div formGroupName="lens_size" >
+                                            <table class="table table-bordered lens-size-table" >
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            <img  class="lens_size" src="assets/images/lens/lens_width.png"><br/>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>Lens Width</mat-label>
+                                                                <input type="text" formControlName="lens_width" matInput>
+                                                                <mat-error *ngIf="lensSizeValidate?.lens_width?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="lensSizeValidate?.lens_width?.errors?.serverError"> {{ lensSizeValidate?.lens_width?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                        </th>
+                                                        <th>
+                                                            <img  class="lens_size" src="assets/images/lens/bridge_distance.png"><br/>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>Bridge Distance</mat-label>
+                                                                <input type="text" formControlName="bridge_distance" matInput>
+                                                                <mat-error *ngIf="lensSizeValidate?.bridge_distance?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="lensSizeValidate?.bridge_distance?.errors?.serverError"> {{ lensSizeValidate?.bridge_distance?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                        </th>                                      
+                                                        <th>
+                                                            <img  class="lens_size" src="assets/images/lens/lens_height.png"><br/>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>Lens Height</mat-label>
+                                                                <input type="text" formControlName="lens_height" matInput>
+                                                                <mat-error *ngIf="lensSizeValidate?.lens_height?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="lensSizeValidate?.lens_height?.errors?.serverError"> {{ lensSizeValidate?.lens_height?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                        </th>      
+                                                        
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            <img  class="lens_size" src="assets/images/lens/temple.png"><br/>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>Temple</mat-label>
+                                                                <input type="text" formControlName="temple" matInput>
+                                                                <mat-error *ngIf="lensSizeValidate?.temple?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="lensSizeValidate?.temple?.errors?.serverError"> {{ lensSizeValidate?.temple?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                        </th>      
+                                                        <th>
+                                                            <img  class="lens_size" src="assets/images/lens/total_width.png"><br/>
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label>Total width</mat-label>
+                                                                <input type="text" formControlName="total_width" matInput>
+                                                                <mat-error *ngIf="lensSizeValidate?.total_width?.errors?.required">This field is required.</mat-error>
+                                                                <mat-error *ngIf="lensSizeValidate?.total_width?.errors?.serverError"> {{ lensSizeValidate?.total_width?.errors?.serverError }} </mat-error>
+                                                            </mat-form-field>
+                                                        </th>      
+                                                    </tr>
+                                                </thead>
+                                                
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="footer-block text-center">
+                                <div class="button-group">
+                                    <button type="submit" (click)="tabChange(1)"  mat-raised-button class="btn-int-blue"> previous </button>
+                                    <button type="submit" [disabled]="measurementsForm.invalid" mat-raised-button class="btn-int-blue"> Submit </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </mat-tab> -->
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="row mg-b-20">
+    <div class="col-md-12 col-xl-12">
+        <div class="row">
+            <h3 class="az-content-label ">Orders</h3>
+            <div class="table-responsive mg-t-20">
+                <table class="table table-bordered  ">
+                    <thead>
+                        <tr>
+                            <!-- <th class="wd-lg-25p">S NO</th> -->
+                            <th class="wd-lg-25p">Image</th>
+                            <th class="wd-lg-25p">Brand</th>
+                            <th class="wd-lg-25p">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="cursorPointer" *ngFor="let order of orders;let i=index;" >
+                            <!-- <td> {{i+1}}</td> -->
+                            <td class="tx-medium"> 
+                                    <img class="az-img-user" src="assets/images/img{{i+1}}.jpg ">  </td>
+                            <td class="tx-medium"> BLUE BAY   </td>
+                            <td class="tx-medium"> INR {{i+1}},00{{i+1}}  </td>
+                        </tr>
+                    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
