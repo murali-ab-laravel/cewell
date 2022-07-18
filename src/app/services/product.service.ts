@@ -60,4 +60,17 @@ export class ProductService {
   public showCart(id:number):Observable<any>{
     return this.http.put(`${this.REST_API_SERVER}/cart-show/${id}`,id);
   }
+
+  public getOrders(params:any = ""):Observable<any>{
+    return this.http.post(`${this.REST_API_SERVER}/orderslist?${params.toString()}`,{ params: ""});
+  }
+  public storeOrder(params):Observable<any>{
+    return this.http.post(`${this.REST_API_SERVER}/order-store`,params);
+  }
+  public showOrder(id:number):Observable<any>{
+    return this.http.put(`${this.REST_API_SERVER}/order-show/${id}`,id);
+  }
+  public updateOrder(id:number,params):Observable<any>{
+    return this.http.post(`${this.REST_API_SERVER}/order-update/${id}`,params);
+  }
 }

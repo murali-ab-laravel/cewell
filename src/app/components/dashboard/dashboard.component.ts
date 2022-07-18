@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonService } from '../../services/common.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,7 +8,7 @@ import { CommonService } from '../../services/common.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
+  public SERVER_PATH = environment.REST_API_URL;
   public customersInStore:number = 0;
   public visits:any[];
  

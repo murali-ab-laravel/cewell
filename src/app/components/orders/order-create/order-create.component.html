@@ -1,1 +1,141 @@
-<p>order-create works!</p>
+<div class="az-content">
+    <div class="container">
+        <div class="az-content-body d-flex flex-column">
+            <div class="az-content-title">
+                <div class="row">
+                        <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h1>Order Details</h1>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <!-- <h3>Customer Information</h3> -->
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email ID</th>
+                                                <th>Mobile Number</th>
+                                            </tr>
+                                            <tr>
+                                                <td> <p> {{ customer?.name }} </p></td>
+                                                <td> <p> {{ customer?.email }} </p></td>
+                                                <td> <p> {{ customer?.phone }} </p></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <table class="table thead-light">
+                                            <tr>
+                                                <th style="width: 40%" >Item</th>
+                                                <th style="width: 10%" >Price</th>
+                                                <th style="width: 20%" >Quantity</th>
+                                                <th class="text-right" style="width: 10%" >Discount</th>
+                                                <th class="text-right" style="width: 10%" >Subtotal</th>
+                                            </tr>
+                                        
+                                            <tr *ngFor="let cart of orderItems;">
+                                                <td style="width: 40%">
+                                                    <div class="productDetails">
+                                                        <div class="productImg">
+                                                            <img src="{{SERVER_PATH}}/storage/{{cart?.product?.images}}" 
+                                                            alt="" 
+                                                            class="img" aria-hidden="false">
+                                                        </div>
+                                                    
+                                                        <div class="productDesc">
+                                                            <p>{{cart?.product?.name}}</p>
+                                                            <p> {{cart?.product?.item_type}}</p>
+                                                            <p>{{cart?.product?.item_description}}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="width: 10%">
+                                                        <p>INR {{(cart?.product?.price) | number:'1.2-2'}}</p>
+                                                </td>
+                                                <td style="width: 20%">
+                                                    <p> {{cart?.quantities}}</p>
+                                                        
+                                                </td>
+                                                <td  class="text-right" style="width: 10%">
+                                                    <p>INR {{(cart?.discount) | number:'1.2-2'}}</p>
+                                                </td>
+                                                <td class="text-right" style="width: 10%">
+                                                    <p>INR {{(cart?.product?.price * cart?.quantities) | number:'1.2-2' }}</p>
+                                                </td>
+                                            </tr>
+
+                                            <!-- <tr>
+                                                <td class="text-right" colspan="4"> Total </td>
+                                                <td > INR {{ total }}</td>
+                                            </tr> -->
+
+                                            <tr>
+                                                <td class="text-right" colspan="4"> Payment Type </td>
+                                                <td class="text-right"> {{
+                                                        ((order?.payment_type === '1')? 'CASH' : (order?.payment_type === '2')? 'UPI' : 'ONLINE')
+                                                        }}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="text-right" colspan="4"> Payment Settlement </td>
+                                                <td class="text-right"> {{ ((order?.payment_settlement === '1')? 'Full Amount' : 'Advance Amount') }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right" colspan="4"> Amount </td>
+                                                <td class="text-right"> INR {{ order?.amount | number:'1.2-2' }}</td>
+                                            </tr>
+                                            <tr *ngIf="order?.payment_settlement !== '1'">
+                                                <td class="text-right" colspan="4"> Paid Amount </td>
+                                                <td class="text-right"> INR {{ order?.paid_amount | number:'1.2-2' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right" colspan="4"> Order Status </td>
+                                                <td class="text-right"> {{
+                                                        ((order?.order_status === '0')? 'Initiate' : (order?.order_status === '1')? 'Progress' : 'Completed')
+                                                       }}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- <div class="row">
+                                    <div class="col-lg-12">
+                                       <table class="table thead-light">
+                                         <tr>
+                                             <th>Payment Type</th>
+                                             <th>{{
+                                                    ((order?.payment_type === '1')? 'CASH' : (order?.payment_type === '2')? 'UPI' : 'ONLINE')
+                                                   }}
+                                               </th>
+                                         </tr>
+                                         <tr>
+                                            <th>Payment Settlement</th>
+                                            <th>{{ ((order?.payment_settlement === '1')? 'Full Amount' : 'Advance Amount') }}</th>
+                                         </tr>
+                                         <tr>
+                                                <th>Amount</th>
+                                                <th> INR {{ order?.amount }}</th>
+                                         </tr>
+                                         <tr>
+                                                <th>Order Status</th>
+                                                <th>{{
+                                                        ((order?.order_status === '0')? 'Initiate' : (order?.order_status === '1')? 'Progress' : 'Completed')
+                                                       }}
+                                                </th>
+                                         </tr>
+                                       </table>
+                                    </div>
+                                </div> -->
+                        </div>
+                      
+                    </div>
+              
+            </div>
+        </div>
+    </div>
+</div>

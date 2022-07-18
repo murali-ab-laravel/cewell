@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, from, Subject } from 'rxjs';
+import { Observable, from, Subject, BehaviorSubject } from 'rxjs';
 
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
@@ -13,7 +13,9 @@ export class AuthenticationService {
 
   public REST_API_SERVER:string = `${environment.REST_API_URL}/api/${environment.version}`;
 
-  public customerSubject$ = new Subject<string|number>();
+  public _customerSubject = new BehaviorSubject<string|number>(0);
+
+  public customerSubject$ = this._customerSubject.asObservable();
 
   constructor(private http:HttpClient,
       private router:Router) { }
@@ -170,8 +172,9 @@ export class AuthenticationService {
   }
 
   public setCustomerSubject(id:string|number):void{
-    let customerId = id.toString();
-    this.customerSubject$.next(customerId);
+    console.log(`on cutomer subject`);
+    let customerId = (id != null) ? id.toString() : "";
+    this._customerSubject.next(customerId);
     // localStorage.setItem('customerId',customerId);
   }
 
@@ -180,10 +183,15 @@ export class AuthenticationService {
     // return localStorage.getItem('customerId');
   }
 
+  public removeCutomerSubject(){
+    this._customerSubject.unsubscribe();
+  }
+
   public setCustomerId(id:string|number):void{
-    let customerId = id.toString();
-    this.setCustomerSubject(customerId);
+    let customerId = (id != null) ? id.toString() : "";
+    console.log(`setcutomerid on localstorge.`)
     localStorage.setItem('customerId',customerId);
+    this.setCustomerSubject(customerId);
   }
 
   public getCustomerId():string{

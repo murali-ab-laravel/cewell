@@ -120,8 +120,12 @@
                 </mat-select>
                 <mat-error *ngIf="formValidate?.country_id?.errors?.required">This field is required.</mat-error>
                 <mat-error *ngIf="formValidate?.country_id?.errors?.serverError"> {{ formValidate?.country_id?.errors?.serverError }} </mat-error>
-
             </mat-form-field>
+
+            <app-file-upload
+              requiredFileType="image/png"
+              [uploadType]="uploadType"
+              (fileUploaded)="addAttachment($event)"></app-file-upload> 
 
             <div class="footer-block text-center">
                 <div class="button-group">

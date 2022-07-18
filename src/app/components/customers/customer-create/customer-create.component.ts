@@ -27,6 +27,7 @@ export class CustomerCreateComponent implements OnInit {
  public customerId:number = undefined;
  public buttonText:string = "Create";
 
+ public uploadType:string ="customer";
 
   constructor(private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -73,6 +74,7 @@ export class CustomerCreateComponent implements OnInit {
               city: customer.city,
               state: customer.state,
               country_id: customer.country_id,
+              images: customer.images,
               // billing_street: customer.customerbranch.billing_street,
               // billing_city: customer.customerbranch.billing_city,
               // billing_state: customer.customerbranch.billing_state,
@@ -107,6 +109,7 @@ export class CustomerCreateComponent implements OnInit {
       city:  ['',[Validators.required]],
       state:  ['',[Validators.required]],
       country_id:  ['',[Validators.required]],
+      images: [''],
       // billing_street: ['',[Validators.required]],
       // billing_city: ['',[Validators.required]],
       // billing_state: ['',[Validators.required]],
@@ -122,6 +125,10 @@ export class CustomerCreateComponent implements OnInit {
 
   get formValidate(){
     return this.customerForm.controls;
+  }
+
+  addAttachment(fileName:any){
+    this.customerForm.patchValue({images: fileName})
   }
 
   customerFormSubmit(){

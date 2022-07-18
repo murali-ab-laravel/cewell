@@ -324,10 +324,9 @@ export class CartItemComponent implements OnInit {
    }
 
   cartUpdate(){
-   let params = { prescriptionId: this.cart.prescriptionId, quantities: this.productQuantity, status: this.cart.status };
+   let params = { prescriptionId: this.cart.prescriptionId,price: this.cart.price, quantities: this.productQuantity, status: this.cart.status };
    this.productService.updateCart(this.cart.id, params).subscribe(
      (response:any)=>{
-        console.log(response);
         this.newEvent.emit("update card")
      },
      (err)=> console.log(err)

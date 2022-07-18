@@ -19,7 +19,10 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let visit of visits;let i=index;" >
-                        <td><img class="az-img-user" src="assets/images/{{visit?.image}} "></td>
+                        <td>
+                            <img class="az-img-user" *ngIf="visit?.image != null" src="{{SERVER_PATH}}/storage/{{visit?.image}}" alt="">
+                            <img class="az-img-user" *ngIf="visit?.image == null" src="assets/images/blank-profile-picture.png" alt="">
+                        </td>
                         <td class="tx-medium"> {{ visit?.visit_date | date:"MM/dd/yy"}}  </td>
                         <td class="tx-medium">{{ visit?.time_spent }}</td>
                         <td class="tx-medium">{{ visit?.time_exit }}</td>

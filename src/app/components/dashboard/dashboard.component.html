@@ -276,7 +276,11 @@
                 </thead>
                 <tbody>
                   <tr class="cursorPointer" *ngFor="let visit of visits;let i=index;" [routerLink]="['/customer',visit?.id]">
-                      <td> <img class="az-img-user" src="assets/images/{{visit?.image}}" alt=""></td>
+                      <td> 
+                        <!-- <img class="az-img-user" src="assets/images/{{visit?.image}}" alt=""> -->
+                        <img class="az-img-user" *ngIf="visit?.images != null" src="{{SERVER_PATH}}/storage/{{visit?.images}}" alt="">
+                        <img class="az-img-user" *ngIf="visit?.images == null" src="assets/images/blank-profile-picture.png" alt="">
+                      </td>
                       <td class="tx-right tx-medium">
                         {{ visit?.name}}
                       </td>

@@ -7,6 +7,7 @@ import { CommonService } from '../../../services/common.service';
 import { AuthenticationService } from '../../../auth/services/authentication.service';
 import { OverviewComponent } from '../overview/overview.component';
 import { ITEMS_PER_PAGE, CURRENT_PAGE } from '../../../shared/constants/pagination.contacts';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-customer-view',
@@ -15,7 +16,7 @@ import { ITEMS_PER_PAGE, CURRENT_PAGE } from '../../../shared/constants/paginati
 })
 export class CustomerViewComponent implements OnInit,OnDestroy,AfterViewInit {
   @ViewChild('myForm', {static: false}) myForm: NgForm;
-
+  public SERVER_PATH = environment.REST_API_URL;
   public customerId:number;
   public visitId:number;
   public customer:any;
@@ -49,9 +50,9 @@ export class CustomerViewComponent implements OnInit,OnDestroy,AfterViewInit {
           let customer = res.data.visits.customer;
           this.customer = (customer != undefined) ? customer :{}
           this.customerId = this.customer.id;
-          this.authenticationService.setCustomerId(this.customerId);
           this.buttonText = (customer != undefined) ? "Update" : "Add";
           this.customerForm.patchValue(this.customer);
+          this.authenticationService.setCustomerId(this.customerId);
       }
     )
    
@@ -75,7 +76,8 @@ export class CustomerViewComponent implements OnInit,OnDestroy,AfterViewInit {
       city:  ['',[Validators.required]],
       state:  ['',[Validators.required]],
       country_id:  ['',[Validators.required]],
-      visit_id: [this.visitId]
+      visit_id: [this.visitId],
+      images: ['']
     });
   }
 

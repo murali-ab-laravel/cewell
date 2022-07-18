@@ -56,15 +56,7 @@ export class OrderProductsComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    console.log(this.customerId)
-    // if(this.customerId == undefined || this.customerId == null){
-      this.authenticationService.getCustomerSubject().subscribe(
-        (input) => {
-          this.customerId = input;
-          console.log(this.customerId)
-        }
-      )
-    // }
+   
     this.getData(this.current_page, this.page_length);
 
    this.toggle.valueChanges.subscribe(e => {

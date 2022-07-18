@@ -4,7 +4,9 @@
             <div class="az-profile-overview">
                 <div class="profile-head">
                 <div class="az-img-user">
-                <img src="assets/images/img10.jpg" alt="">
+                <!-- <img src="assets/images/img10.jpg" alt=""> -->
+                <img class="az-img-user" *ngIf="customer?.images != null" src="{{SERVER_PATH}}/storage/{{customer?.images}}" alt="">
+                <img class="az-img-user" *ngIf="customer?.images == null" src="assets/images/blank-profile-picture.png" alt="">
                 </div>
             </div>
             <hr class="mg-y-10">

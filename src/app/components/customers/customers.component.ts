@@ -14,6 +14,7 @@ import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/c
 import { CustomerCreateComponent } from './customer-create/customer-create.component';
 import { CustomerService } from '../../services/customer.service';
 import { FormControl, Validators } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
 
 const dialogConfig= new MatDialogConfig();
@@ -26,11 +27,11 @@ dialogConfig.autoFocus = true;
   styleUrls: ['./customers.component.css']
 })
 export class CustomersComponent implements OnInit {
-
+  public SERVER_PATH = environment.REST_API_URL;
  
   @ViewChild('paginator', {static: true}) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['name', 'email','phone','age','profession','lifestyle','actions'];
+  displayedColumns: string[] = ['images','name', 'email','phone','age','profession','lifestyle','actions'];
  
   public PAGE_SIZE_OPTIONS_DATA:number[] = PAGE_SIZE_OPTIONS;
 

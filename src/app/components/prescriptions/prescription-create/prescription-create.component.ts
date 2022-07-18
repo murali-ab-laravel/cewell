@@ -56,13 +56,6 @@ export class PrescriptionCreateComponent implements OnInit,AfterViewChecked {
   ) { }
 
   ngOnInit(): void {
-    if(this.customerId == undefined){
-      this.authenticationService.getCustomerSubject().subscribe(
-        (input) => {
-          this.customerId = input;
-        }
-      )
-    }
 
     this.createForm();
     // this.createLensForm();

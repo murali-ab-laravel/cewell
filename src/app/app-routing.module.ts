@@ -22,6 +22,7 @@ import { ChatComponent } from './components/chat/chat.component';
 import { OrderProductsComponent } from './components/orders/order-products/order-products.component';
 import { CartComponent } from './shared/components/cart/cart.component';
 import { OrderPlaceComponent } from './components/orders/order-place/order-place.component';
+import { OrderCreateComponent } from './components/orders/order-create/order-create.component';
 
 // let user_details = JSON.parse(localStorage.getItem('user_details'));
 
@@ -63,7 +64,8 @@ const routes: Routes = [
   { path: 'chat', component:ChatComponent },
   { path: 'cart', component: CartComponent },
   { path: 'order-products', component:OrderProductsComponent },
-  { path: 'order-place', component: OrderPlaceComponent},
+  { path: 'order-place/:orderId', component: OrderPlaceComponent},
+  { path: 'order-view/:orderId', component: OrderCreateComponent },
   { path:'access-denied', component:AccessDeniedComponent },
   { path:'**', component:PageNotFoundComponent }
 ];

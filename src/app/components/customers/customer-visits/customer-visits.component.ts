@@ -11,6 +11,7 @@ import { CommonService } from '../../../services/common.service';
 import { HttpParams } from '@angular/common/http';
 import { CustomerService } from '../../../services/customer.service';
 import { AuthenticationService } from '../../../auth/services/authentication.service';
+import { environment } from '../../../../environments/environment';
 
 const dialogConfig= new MatDialogConfig();
 dialogConfig.disableClose = true;
@@ -23,7 +24,7 @@ dialogConfig.autoFocus = true;
 })
 export class CustomerVisitsComponent implements OnInit {
 
-  
+  public SERVER_PATH = environment.REST_API_URL;
  
   @ViewChild('paginator', {static: true}) paginator: MatPaginator;
 

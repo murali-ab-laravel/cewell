@@ -20,8 +20,7 @@ export class CartComponent implements OnInit {
   public subtotal:number = 0;
   public discount:number = 0;
   public coupon:string;
-
-
+  public userDetails = this.authenticationService.getUserDetails();
   public customerId:string = this.authenticationService.getCustomerId();;
   constructor(private productService:ProductService,
     private authenticationService: AuthenticationService,
@@ -29,13 +28,6 @@ export class CartComponent implements OnInit {
     private _router: Router) { }
 
   ngOnInit(): void {
-    if(this.customerId == undefined){
-      this.authenticationService.getCustomerSubject().subscribe(
-        (input:any) => {
-          this.customerId = input;
-        }
-      )
-    }
     
     this.getCartItems();
     this.getPrescriptoins();
@@ -80,6 +72,15 @@ export class CartComponent implements OnInit {
   }
 
   navigateToPlaceOrder(){
-    this._router.navigate(['/order-place']);
+
+    if(this.cartList.length > 0){
+      let params = { customerId: this.customerId, userId: this.userDetails.user_id };
+      this.productService.storeOrder(params).subscribe(
+        (res:any) => {
+          this._router.navigate(['/order-place',res.data.id]);
+        },
+        err => console.log(err)
+      );
+    }
   }
 }

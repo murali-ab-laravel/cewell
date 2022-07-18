@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterContentInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { AuthenticationService } from '../../../auth/services/authentication.service';
 import { CustomerService } from '../../../services/customer.service';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ dialogConfig.autoFocus = true;
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.css']
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, AfterViewInit,OnDestroy{
 
   public SERVER_PATH = environment.REST_API_URL;
   public customerId:string|number = this.authenticationService.getCustomerId();;
@@ -24,30 +24,39 @@ export class OverviewComponent implements OnInit {
   public prescriptionsOphthalmicLens:any = [];
   public prescriptionsContactLens:any = [];
 
+  public status: boolean = true;
+
   constructor(private authenticationService:AuthenticationService,
     private customerService:CustomerService,
-    private dialog:MatDialog,) { }
+    private dialog:MatDialog,
+   ) { }
 
   ngOnInit(): void {
     console.log(`customer ID :: `,this.customerId);
-    if(this.customerId == undefined){
+  }
+
+  ngAfterViewInit(){
+    // if(this.customerId == undefined || this.customerId == null){
       this.authenticationService.getCustomerSubject().subscribe(
         (input) => {
+          this.status = false;
           this.customerId = input;
           this.getCustomerOverviews();
         }
-      )
-    }else{
-      this.customerId =  this.authenticationService.getCustomerId();
-      console.log(`customer ID :: `,this.customerId);
-      this.getCustomerOverviews();
-    }
+      );
+    // }else{
+      if(this.status){
+        this.customerId =  this.authenticationService.getCustomerId();
+        this.getCustomerOverviews();
+      }
+     
+    // }
   }
   
 
   getCustomerOverviews():void{
-  
-    this.customerService.getCustomerOverview(this.customerId).subscribe(
+    let params = { customerId:  this.customerId };
+    this.customerService.getCustomerOverview(params).subscribe(
       (res) => {
           this.visits = res.data.lastFiveVisits;
           this.prescriptionsOphthalmicLens = res.data.prescriptionsOphthalmicLens;
@@ -68,6 +77,10 @@ export class OverviewComponent implements OnInit {
     this.dialog.afterAllClosed.subscribe(e=>{
       this.getCustomerOverviews();
     });
+  }
+
+  ngOnDestroy(){
+    // this.authenticationService.removeCutomerSubject();
   }
 
 }

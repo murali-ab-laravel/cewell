@@ -45,7 +45,7 @@ export class CustomerService {
     return this.http.put(`${this.REST_API_SERVER}/visit-show/${id}`,id);
   }
 
-  public getCustomerOverview(id:number|string):Observable<any>{
-    return this.http.put(`${this.REST_API_SERVER}/customer-overview/${id}`,id);
+  public getCustomerOverview(params):Observable<any>{
+    return this.http.post(`${this.REST_API_SERVER}/customer-overview`,params);
   }
 }
