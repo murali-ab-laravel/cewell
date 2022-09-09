@@ -15,6 +15,11 @@ export class OrderCreateComponent implements OnInit {
   public orderItems:any[] = [];
   public order:any;
   public total:number = 0;
+
+  public paidAmount: number;
+  public balanceAmount: number;
+
+  public orderPayments:any[] = [];
   
   constructor(private productService: ProductService,
     private router:ActivatedRoute) { }
@@ -32,7 +37,16 @@ export class OrderCreateComponent implements OnInit {
         this.customer = res.data.order.customer;
         this.orderItems = res.data.order.orderitems;
         this.order = res.data.order;
-        // this.orderItems.forEach(r => this.total += (r.product.price * r.quantities))
+        this.orderPayments = res.data.order.orderpayments;
+        let paidAmount = 0;
+        let totalAmont = this.order.amount;
+
+        this.order.orderpayments.forEach(payment => {
+          paidAmount += +(payment.paid_amount)
+        });
+
+        this.paidAmount = paidAmount;
+        this.balanceAmount = totalAmont - paidAmount;
       }
     )
   }

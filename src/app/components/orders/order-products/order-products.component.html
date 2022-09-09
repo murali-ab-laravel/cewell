@@ -2,51 +2,77 @@
     <div class="container">
         <div class="az-content-body d-flex flex-column">
             <div class="az-content-title">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <p class="toggleBtn">Table View
-                            <mat-slide-toggle
-                            [formControl]="toggle" 
-                            name="toggle">
-                            </mat-slide-toggle>
-                         </p> 
-                    </div>
-                </div>
 
-                <div class="row" *ngIf="showView">
-                    <div class="col-lg-12">
-                        <div class="product">
+                <mat-sidenav-container>
+                        <mat-sidenav #sidenav mode="side" opened>
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="product-items">
-                                        <div class="product-list">Imagess</div>
-                                        <div class="product-list">Name</div>
-                                        <div class="product-list">Type</div>
-                                        <div class="product-list">Description</div>
-                                        <div class="product-list">Item Code</div>
-                                        <div class="product-list">Price</div>
-                                        <div class="product-list"> Buy</div>
-                                    </div>
-                                </div>
+                                <div class="az-sidebar">
+                                    <div class="az-sidebar-body">
+                                        <ul class="nav">
+                                        <li class="nav-label">Main Menu</li>
+                                        <li class="nav-item active show" [ngClass]="{ 'active': dashboard.isActive }" >
+                                            <a routerLink="/dashboard" routerLinkActive="active" #dashboard="routerLinkActive" class="nav-link">
+                                            <i class="typcn typcn-clipboard"></i>Dashboard
+                                            </a>
+                                        </li>
+                                        </ul><!-- nav -->
+                                    </div><!-- az-sidebar-body -->
+                                </div><!-- az-sidebar -->
                             </div>
-                        </div>
-                        <app-product 
-                            *ngFor="let product of products;"
-                            [product]="product"
-                            (productAdded)="addProductToCart($event)"
-                        ></app-product>
-                    </div>
-                </div>
-
-                <div class="row" *ngIf="!showView">
-                    <div class="col-lg-4"  *ngFor="let product of products;">
-                        <app-grid-product
-                        [product]="product"
-                        (productAdded)="addProductToCart($event)"
-                        >
-                        </app-grid-product>
-                    </div>
-                </div>
+                        </mat-sidenav>
+                        <mat-sidenav-content>
+                            <main class="sidenav-content">
+                                <div class="main-content">
+                                        <div class="row">
+                                                <div class="col-lg-12">
+                                                    <p class="toggleBtn">Table View
+                                                        <mat-slide-toggle
+                                                        [formControl]="toggle" 
+                                                        name="toggle">
+                                                        </mat-slide-toggle>
+                                                     </p> 
+                                                </div>
+                                        </div>
+                        
+                                        <div class="row" *ngIf="showView">
+                                            <div class="col-lg-12">
+                                                <div class="product">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="product-items">
+                                                                <div class="product-list">Imagess</div>
+                                                                <div class="product-list">Name</div>
+                                                                <div class="product-list">Type</div>
+                                                                <div class="product-list">Description</div>
+                                                                <div class="product-list">Item Code</div>
+                                                                <div class="product-list">Price</div>
+                                                                <div class="product-list"> Buy</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <app-product 
+                                                    *ngFor="let product of products;"
+                                                    [product]="product"
+                                                    (productAdded)="addProductToCart($event)"
+                                                ></app-product>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="row" *ngIf="!showView">
+                                            <div class="col-lg-4"  *ngFor="let product of products;">
+                                                <app-grid-product
+                                                [product]="product"
+                                                (productAdded)="addProductToCart($event)"
+                                                >
+                                                </app-grid-product>
+                                            </div>
+                                        </div>
+                                </div>
+                            </main>
+                        </mat-sidenav-content>
+                </mat-sidenav-container>
+               
             </div>
         </div>
     </div>

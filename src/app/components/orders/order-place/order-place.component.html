@@ -4,12 +4,12 @@
             <div class="pd-10">
                <div class="row">
                     <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                   <h3> Total playable: INR {{ orderItem?.order?.amount }}</h3>
-                                </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h3> Total playable: INR {{ balanceAmount }}</h3>
                             </div>
                         </div>
+                    </div>
                    <div class="col-lg-6">
                        <form [formGroup]="orderForm" (ngSubmit)="orderFormSubmit()">
                             <div class="row">
@@ -42,8 +42,8 @@
                                         <mat-label>Amount</mat-label>
                                         <input type="text" formControlName="amount" matInput>
                                       <mat-error *ngIf="formValidate?.amount?.errors?.required">This field is required.</mat-error>
-                                      <mat-error *ngIf="isError">Please enter valid amount.</mat-error>
                                     </mat-form-field>
+                                    <mat-error *ngIf="isError">Please enter valid amount.</mat-error>
                                 </div>
                                 <!-- <div class="col-lg-12 mg-t-10">
                                     <mat-form-field>

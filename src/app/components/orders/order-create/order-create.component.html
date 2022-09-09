@@ -89,17 +89,32 @@
                                                 <td class="text-right" colspan="4"> Amount </td>
                                                 <td class="text-right"> INR {{ order?.amount | number:'1.2-2' }}</td>
                                             </tr>
-                                            <tr *ngIf="order?.payment_settlement !== '1'">
-                                                <td class="text-right" colspan="4"> Paid Amount </td>
-                                                <td class="text-right"> INR {{ order?.paid_amount | number:'1.2-2' }}</td>
-                                            </tr>
+
+                                            <ng-container *ngIf="orderPayments?.length > 0">
+                                                <tr *ngFor="let orderPayment of orderPayments;let i = index">
+                                                    <td class="text-right" colspan="3"> Paid Amount - {{ i+1 }} </td>
+                                                    <td class="text-right"> INR {{ orderPayment?.paid_amount | number:'1.2-2' }}</td>
+                                                    <td  class="text-right"> - </td>
+                                                </tr>
+                                                <tr>
+                                                        <td class="text-right" colspan="3"> Total Paid Amount </td>
+                                                        <td class="text-right"> INR {{ paidAmount | number:'1.2-2' }}</td>
+                                                        <td class="text-right"> INR {{ paidAmount | number:'1.2-2' }}</td>
+                                                </tr>
+                                            </ng-container>
                                             <tr>
+                                                    <td class="text-right" colspan="4"> Balance Amount </td>
+                                                    <td class="text-right"> 
+                                                            INR {{ balanceAmount | number:'1.2-2' }}
+                                                    </td>
+                                                </tr>
+                                            <!-- <tr>
                                                 <td class="text-right" colspan="4"> Order Status </td>
                                                 <td class="text-right"> {{
                                                         ((order?.order_status === '0')? 'Initiate' : (order?.order_status === '1')? 'Progress' : 'Completed')
                                                        }}
                                                 </td>
-                                            </tr>
+                                            </tr> -->
                                         </table>
                                     </div>
                                 </div>
@@ -131,6 +146,7 @@
                                        </table>
                                     </div>
                                 </div> -->
+                            <app-order-place (updateEvent)="ngOnInit()"></app-order-place>
                         </div>
                       
                     </div>

@@ -15,7 +15,8 @@ export class AppComponent {
     // Removing Sidebar, Navbar, Footer for Documentation, Error and Auth pages
     router.events.forEach((event) => { 
       if(event instanceof NavigationStart) {
-        if((event['url'] == '/login') || (event['url'] == '/general-pages/signup') || (event['url'] == '/general-pages/page-404') ) {
+        // alert(event['url']);
+        if((event['url'] == '/') || (event['url'] == '/login') || (event['url'] == '/general-pages/signup') || (event['url'] == '/general-pages/page-404') ) {
           this.showHeader = false;
           this.showFooter = false;
         } else {

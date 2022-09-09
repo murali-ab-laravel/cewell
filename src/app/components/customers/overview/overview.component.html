@@ -64,8 +64,9 @@
                                                             #LENS000{{prescription?.id}}
                                                             </mat-panel-title>
                                                             <mat-panel-description>
-                                                                {{prescription?.given_by}}
-                                                                {{prescription?.validity}}
+                                                               <div>
+                                                                    Prescription By  <b>{{prescription?.given_by}} - Valid until {{prescription?.validity}}</b>
+                                                               </div>
                                                             </mat-panel-description>
                                                         </mat-expansion-panel-header>
                                                             <div class="row">
@@ -133,8 +134,9 @@
                                                                     #LENS000{{prescription?.id}}
                                                             </mat-panel-title>
                                                             <mat-panel-description>
-                                                                {{prescription?.given_by}}
-                                                                {{prescription?.validity}}
+                                                                <div>
+                                                                    Prescription By  <b>{{prescription?.given_by}} - Valid until {{prescription?.validity}}</b>
+                                                               </div>
                                                             </mat-panel-description>
                                                         </mat-expansion-panel-header>
                                                             <div class="row">

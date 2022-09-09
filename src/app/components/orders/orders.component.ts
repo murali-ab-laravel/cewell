@@ -29,7 +29,7 @@ export class OrdersComponent implements OnInit {
  
   @ViewChild('paginator', {static: true}) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['id','amount','status','actions'];//,'model','color','size','frame_type','collection_type','material','prescription_type','glass_color','frame_width','catalog_no'
+  displayedColumns: string[] = ['id','amount','paidAmount','balance','status','actions'];//,'model','color','size','frame_type','collection_type','material','prescription_type','glass_color','frame_width','catalog_no'
  
   public PAGE_SIZE_OPTIONS_DATA:number[] = PAGE_SIZE_OPTIONS;
 
@@ -98,6 +98,25 @@ export class OrdersComponent implements OnInit {
     this.page_length = event.pageSize;
     this.current_page = event.pageIndex + 1;
     this.getData(this.current_page, this.page_length);
+  }
+
+  getPaidAmount(orderpayments){
+    let paidAmount= 0;
+    orderpayments.forEach(payment => {
+      paidAmount += +(payment.paid_amount)
+    });
+    return paidAmount;
+  }
+
+  getBalanceAmount(order){
+    let balanceAmount = 0;
+    let paidAmount = 0;
+    const totalAmont = order.amount;
+    order.orderpayments.forEach(payment => {
+      paidAmount += +(payment.paid_amount)
+    });
+    balanceAmount = totalAmont - paidAmount;
+    return balanceAmount;
   }
 
 

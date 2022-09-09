@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { ProductService } from '../../../services/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -10,10 +10,13 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class OrderPlaceComponent implements OnInit {
 
+  @Output('updateEvent') public orderUpdateEvent = new EventEmitter();
+
   public orderId: number;
   public orderItem:any;
   public isOrderShow:boolean = true;
   public orderForm: FormGroup;
+  public balanceAmount: number;
 
   public paymentTypeOptions: any[] = [
     { id: 1, name: 'CASH' },
@@ -36,7 +39,8 @@ export class OrderPlaceComponent implements OnInit {
   constructor(
     private productService:ProductService,
     private route: ActivatedRoute,
-    private fb:FormBuilder) { }
+    private fb:FormBuilder,
+    private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.orderId = +this.route.snapshot.paramMap.get('orderId');
@@ -49,7 +53,7 @@ export class OrderPlaceComponent implements OnInit {
     this.orderForm.get('paymentSettlement').valueChanges.subscribe(
       (val) =>{
         if(val.id === 1){
-          this.orderForm.get('amount').setValue(this.orderItem.order.amount);
+          this.orderForm.get('amount').setValue(this.balanceAmount);
           this.orderForm.get('amount').disable();
         }else{
           this.orderForm.get('amount').setValue('');
@@ -58,17 +62,17 @@ export class OrderPlaceComponent implements OnInit {
       }
     );
 
-    // this.orderForm.get('amount').valueChanges.subscribe((v) => {
-    //   const enterAmount = +v;
-    //   const orderAmount = +this.orderItem.order.amount;
-    //   console.log(`${enterAmount} - ${orderAmount}`);
-    //   debugger
-    //     if(enterAmount > orderAmount){
-    //       this.isError = true;
-    //     }else{
-    //       this.isError = false;
-    //     }
-    // });
+    this.orderForm.get('amount').valueChanges.subscribe((v) => {
+      const enterAmount = +v;
+      const orderAmount = +this.orderItem.amount;
+      // console.log(`${enterAmount} - ${orderAmount}`);
+        if(enterAmount > orderAmount){
+          this.isError = true;
+        }else{
+          this.isError = false;
+        }
+        this.cd.detectChanges();
+    });
   }
 
   createOrderForm(){
@@ -84,19 +88,16 @@ export class OrderPlaceComponent implements OnInit {
 
   getOrders(){
     this.productService.showOrder(this.orderId).subscribe( (res:any) => {
-      this.orderItem = res.data;
-      if(this.orderItem.order.order_status == 0){
-        this.isOrderShow = true;
-      }else{
-        this.isOrderShow = false;
-      }
+      this.orderItem = res.data.order;
+        this.checkOrderShow();
     });
   }
 
   orderFormSubmit(){
-    if(this.orderForm.invalid){
+    if(this.orderForm.invalid || this.isError){
       return;
     }
+
     this.orderForm.get('amount').enable();
 
     const params = {
@@ -108,8 +109,27 @@ export class OrderPlaceComponent implements OnInit {
 
     this.productService.updateOrder(this.orderId,params).subscribe( (res:any) => {
       this.orderItem = res.data;
-      this.isOrderShow = false;
-      console.log(res);
+      this.checkOrderShow();
+      this.updateOrder();
+      this.ngOnInit();
     });
+  }
+
+  checkOrderShow(){
+    const totalAmont = this.orderItem.amount;
+    let paidAmount = 0;
+    this.orderItem.orderpayments.forEach(payment => {
+      paidAmount += +(payment.paid_amount)
+    });
+    this.balanceAmount = totalAmont - paidAmount;
+    if(totalAmont == paidAmount){
+      this.isOrderShow = false;
+    }else{
+      this.isOrderShow = true;
+    }
+  }
+
+  updateOrder(){
+    this.orderUpdateEvent.emit('true');
   }
 }
