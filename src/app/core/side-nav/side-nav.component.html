@@ -53,6 +53,12 @@
             <i class="icon ion-ios-settings"></i>Orders
           </a>
       </li>
+
+      <li class="nav-item " [ngClass]="{ 'active': inventorys.isActive }">
+          <a routerLink="/inventorys" routerLinkActive="active" #inventorys="routerLinkActive" class="nav-link">
+            <i class="icon ion-ios-stats"></i>Inventory
+          </a>
+      </li>
        
       </ul><!-- nav -->
     </div><!-- az-sidebar-body -->

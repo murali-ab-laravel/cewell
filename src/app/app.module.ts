@@ -45,6 +45,8 @@ import { ChatComponent } from './components/chat/chat.component';
 import { PrescriptionService } from './services/prescription.service';
 import { OrderProductsComponent } from './components/orders/order-products/order-products.component';
 import { OrderPlaceComponent } from './components/orders/order-place/order-place.component';
+import { InventoryCreateComponent } from './components/inventory/inventory-create/inventory-create.component';
+import { InventoryComponent } from './components/inventory/inventory.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,8 @@ import { OrderPlaceComponent } from './components/orders/order-place/order-place
     ChatComponent,
     OrderProductsComponent,
     OrderPlaceComponent,
+    InventoryCreateComponent,
+    InventoryComponent,
   ],
   imports: [
     BrowserModule,

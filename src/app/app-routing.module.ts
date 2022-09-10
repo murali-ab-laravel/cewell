@@ -23,6 +23,7 @@ import { OrderProductsComponent } from './components/orders/order-products/order
 import { CartComponent } from './shared/components/cart/cart.component';
 import { OrderPlaceComponent } from './components/orders/order-place/order-place.component';
 import { OrderCreateComponent } from './components/orders/order-create/order-create.component';
+import { InventoryComponent } from './components/inventory/inventory.component';
 
 // let user_details = JSON.parse(localStorage.getItem('user_details'));
 
@@ -43,6 +44,7 @@ const routes: Routes = [
   { path: 'users', canActivate: [AuthGuard], component: UsersComponent},
   { path: 'products',canActivate: [AuthGuard], component: ProductsComponent },
   { path: 'orders',canActivate: [AuthGuard], component: OrdersComponent },
+  { path: 'inventorys',canActivate: [AuthGuard], component: InventoryComponent },
   { path: 'prescriptions',canActivate: [AuthGuard], component: PrescriptionsComponent },
   { path: 'customers',canActivate: [AuthGuard], component: CustomersComponent },
   { 
