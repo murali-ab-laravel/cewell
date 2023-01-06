@@ -64,6 +64,10 @@ export class OrdersComponent implements OnInit {
   
   ngOnInit(): void {
     this.getData(this.current_page, this.page_length);
+
+    this.filter.valueChanges.subscribe((f) => {
+        this.getData(this.current_page, this.page_length);
+    });
   }
 
   ngAfterViewInit(){
@@ -83,9 +87,12 @@ export class OrdersComponent implements OnInit {
     params = params.set('customerId', customerId);
     params = params.set('userId', userId);
 
-    let filter = this.filter.value;
-    params = params.set('filter',filter);
-   
+    if(this.filter.value != "") {
+      let filter = this.filter.value;
+      params = params.set('filter',filter);
+    }
+
+    
     this.productService.getOrders(params)
     .subscribe((response: any) =>{
       this.dataSource = new MatTableDataSource<any>(response.data);

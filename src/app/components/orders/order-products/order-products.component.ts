@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { PAGE_SIZE_OPTIONS, PAGE_LENGTH, ITEMS_PER_PAGE, CURRENT_PAGE } from '../../../shared/constants/pagination.contacts';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,7 +15,7 @@ import { FormControl, FormBuilder, Validators, FormGroup } from '@angular/forms'
   templateUrl: './order-products.component.html',
   styleUrls: ['./order-products.component.css']
 })
-export class OrderProductsComponent implements OnInit {
+export class OrderProductsComponent implements OnInit, OnDestroy  {
 
   @Output() productAdded = new EventEmitter();
   
@@ -112,6 +112,7 @@ export class OrderProductsComponent implements OnInit {
 
   resetFilter(){
     this.productForm.reset();
+    this.createForm();
     this.advanceSerch = false;
     this.getData(this.current_page, this.page_length = 1000);
   }
@@ -174,11 +175,15 @@ export class OrderProductsComponent implements OnInit {
     this.productService.productAddToCart(params).subscribe(
       (response:any) =>{
         let data = response.data;
+        this.authenticationService.setTotalCartItems(response.totalCartItems);
         this.commonService.openAlert(response.message); 
         console.log(data);
       }
     )
   }
 
+  ngOnDestroy() {
+    this.authenticationService.setTotalCartItems(0);
+  }
 
 }

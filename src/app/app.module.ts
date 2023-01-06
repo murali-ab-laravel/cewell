@@ -47,6 +47,9 @@ import { OrderProductsComponent } from './components/orders/order-products/order
 import { OrderPlaceComponent } from './components/orders/order-place/order-place.component';
 import { InventoryCreateComponent } from './components/inventory/inventory-create/inventory-create.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
+import { StoreManagmentComponent } from './components/store-managment/store-managment.component';
+import { RequestCreateComponent } from './components/store-managment/request-create/request-create.component';
+import { WarehouseManagmentComponent } from './components/warehouse-managment/warehouse-managment.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +83,9 @@ import { InventoryComponent } from './components/inventory/inventory.component';
     OrderPlaceComponent,
     InventoryCreateComponent,
     InventoryComponent,
+    StoreManagmentComponent,
+    RequestCreateComponent,
+    WarehouseManagmentComponent,
   ],
   imports: [
     BrowserModule,

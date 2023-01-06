@@ -59,6 +59,18 @@
             <i class="icon ion-ios-stats"></i>Inventory
           </a>
       </li>
+
+      <li class="nav-item " [ngClass]="{ 'active': storeManagement.isActive }">
+        <a routerLink="/store-managment" routerLinkActive="active" #storeManagement="routerLinkActive" class="nav-link">
+          <i class="icon ion-ios-stats"></i>Store Management
+        </a>
+    </li>
+
+    <li class="nav-item " [ngClass]="{ 'active': warehouseManagment.isActive }" *appPermissions=[MENU_PERMISSIONS?.WAREHOUSE_MENUS]>
+        <a routerLink="/warehouse-managment" routerLinkActive="active" #warehouseManagment="routerLinkActive" class="nav-link">
+          <i class="icon ion-ios-stats"></i>Warehouse Management
+        </a>
+    </li>
        
       </ul><!-- nav -->
     </div><!-- az-sidebar-body -->

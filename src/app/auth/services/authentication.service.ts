@@ -13,6 +13,8 @@ export class AuthenticationService {
 
   public REST_API_SERVER:string = `${environment.REST_API_URL}/api/${environment.version}`;
 
+  public totalCartItems$ = new Subject();
+
   public _customerSubject = new BehaviorSubject<string|number>(0);
 
   public customerSubject$ = this._customerSubject.asObservable();
@@ -183,6 +185,15 @@ export class AuthenticationService {
     // return localStorage.getItem('customerId');
   }
 
+  public getTotalCartItems(){
+    return this.totalCartItems$;
+  }
+
+  
+  public setTotalCartItems(count){
+    this.totalCartItems$.next(count);
+  }
+
   public removeCutomerSubject(){
     this._customerSubject.unsubscribe();
   }
@@ -214,6 +225,7 @@ export class AuthenticationService {
       'CUSTOMER_MENUS': ['CUSTOMER_CREATE','CUSTOMER_UPDATE','CUSTOMER_DELETE','CUSTOMER_VIEW','CUSTOMER_LIST'], 
       'PRODUCT_MENUS': ['PRODUCT_CREATE','PRODUCT_UPDATE','PRODUCT_DELETE','PRODUCT_VIEW','PRODUCT_LIST'], 
       'SUPPLIER_MENUS': ['SUPPLIER_CREATE','SUPPLIER_UPDATE','SUPPLIER_DELETE','SUPPLIER_VIEW','SUPPLIER_LIST'], 
+      'WAREHOUSE_MENUS': ['WAREHOUSE_CREATE','WAREHOUSE_UPDATE','WAREHOUSE_DELETE','WAREHOUSE_VIEW','WAREHOUSE_LIST'],  
     }
   }
 

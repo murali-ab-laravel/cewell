@@ -10,9 +10,16 @@ export class HeaderComponent implements OnInit {
 
   public userDetails = this.authenticationService.getUserDetails();
 
+  public totalCartItems:any = 0;
+
   constructor(private authenticationService:AuthenticationService) { }
 
   ngOnInit(): void {
+     this.authenticationService.getTotalCartItems().subscribe(
+      (v:any) => {
+        this.totalCartItems = v | 0;
+      }
+    );
   }
   closeMenu(e) {
     e.target.closest('.dropdown').classList.remove('show');

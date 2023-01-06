@@ -19,7 +19,7 @@
                 </div>
 
                 <mat-drawer-container class="example-container">
-                        <mat-drawer #drawer mode="side">
+                        <mat-drawer #drawer mode="side" [opened]="true">
                             <div class="row">
                                <div class="col-lg-12">
                                     <div class="container">
@@ -30,6 +30,7 @@
                                                     <mat-form-field appearance ="outline">
                                                         <mat-label>Item Type</mat-label>
                                                         <mat-select formControlName="item_type">
+                                                            <mat-option value="">All</mat-option>
                                                             <mat-option *ngFor="let item_type of item_types;" value="{{ item_type?.name}} - ( {{ item_type?.key }} )">
                                                                 <span>{{ item_type?.name }} - ( {{ item_type?.key }} )</span> 
                                                             </mat-option>
@@ -41,6 +42,7 @@
                                                     <mat-form-field appearance ="outline">
                                                         <mat-label>Brand</mat-label>
                                                         <mat-select formControlName="brand">
+                                                            <mat-option value="">All</mat-option>
                                                             <mat-option *ngFor="let brand of brands;" [value]="brand?.id">
                                                                 <span>{{brand?.name}}</span>
                                                             </mat-option>
@@ -53,6 +55,7 @@
                                                     <mat-form-field appearance ="outline">
                                                         <mat-label> RMI Type</mat-label>
                                                         <mat-select formControlName="rim_type">
+                                                            <mat-option value="">All</mat-option>
                                                             <mat-option *ngFor="let rim_type of rim_types;" [value]="rim_type">
                                                                 <span>{{rim_type}}</span>
                                                             </mat-option>
@@ -64,6 +67,7 @@
                                                     <mat-form-field appearance ="outline">
                                                         <mat-label> Collection Type</mat-label>
                                                         <mat-select formControlName="collection_type">
+                                                            <mat-option value="">All</mat-option>
                                                             <mat-option *ngFor="let collection_type of collection_types;" [value]="collection_type?.id">
                                                                 <span>{{collection_type?.name}}</span>
                                                             </mat-option>
@@ -75,6 +79,7 @@
                                                     <mat-form-field appearance ="outline">
                                                         <mat-label> Material</mat-label>
                                                         <mat-select formControlName="material">
+                                                            <mat-option value="">All</mat-option>
                                                             <mat-option *ngFor="let material of materials;" [value]="material?.id">
                                                                 <span>{{material?.name}}</span>
                                                             </mat-option>
@@ -86,6 +91,7 @@
                                                     <mat-form-field appearance ="outline">
                                                         <mat-label>Prescription Type</mat-label>
                                                         <mat-select formControlName="prescription_type">
+                                                            <mat-option value="">All</mat-option>
                                                             <mat-option *ngFor="let prescription_type of prescription_types;" [value]="prescription_type?.id">
                                                                 <span>{{prescription_type?.name}}</span>
                                                             </mat-option>
@@ -97,6 +103,7 @@
                                                     <mat-form-field appearance ="outline">
                                                         <mat-label>Glass Color</mat-label>
                                                         <mat-select formControlName="glass_color">
+                                                            <mat-option value="">All</mat-option>
                                                             <mat-option *ngFor="let glass_color of glass_colors;" [value]="glass_color?.id">
                                                                 <span>{{glass_color?.name}}</span>
                                                             </mat-option>
@@ -108,6 +115,7 @@
                                                     <mat-form-field appearance ="outline">
                                                         <mat-label>Frame Width</mat-label>
                                                         <mat-select formControlName="frame_width">
+                                                            <mat-option value="">All</mat-option>
                                                             <mat-option *ngFor="let frame_width of frame_widths;" [value]="frame_width?.id">
                                                                 <span>{{frame_width?.name}}</span>
                                                             </mat-option>

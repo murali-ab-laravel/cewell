@@ -59,6 +59,9 @@ export class InventoryComponent implements OnInit {
   
   ngOnInit(): void {
     this.getData(this.current_page, this.page_length);
+    this.filter.valueChanges.subscribe((f) => {
+        this.getData(this.current_page, this.page_length);
+    });
   }
 
 
@@ -132,8 +135,10 @@ export class InventoryComponent implements OnInit {
     params = params.set('current_page', currentPage);
     params = params.set('per_page', perPage);
 
-    let filter = this.filter.value;
-    params = params.set('filter',filter);
+    if(this.filter.value != "") {
+      let filter = this.filter.value;
+      params = params.set('filter',filter);
+    }
    
     this.inventoryService.getInventories(params)
     .subscribe((response: any) =>{

@@ -24,15 +24,12 @@
                 </div>
                 <div class="pd-15 bg-gray-200 forSearchFilter">
                     <div  class="row">
-                        <div  class="col-md-10">
+                        <div  class="col-md-12">
                             <mat-form-field>
                                 <input type="text" [formControl]="filter" placeholder="Search" matInput>
                                 <mat-error *ngIf="filter?.errors?.required">This field is required.</mat-error>
                             </mat-form-field>
-                        </div>
-                        <div  class="col-md-2 text-right">
-                            <button type="button" (click)="advancedFilter()" class="mat-focus-indicator btn-int-blue mat-raised-button mat-button-base ng-star-inserted">Search</button>
-                        </div>
+                        </div>                      
                     </div>
                 </div>
             </div>

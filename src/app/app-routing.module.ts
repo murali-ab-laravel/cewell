@@ -24,6 +24,8 @@ import { CartComponent } from './shared/components/cart/cart.component';
 import { OrderPlaceComponent } from './components/orders/order-place/order-place.component';
 import { OrderCreateComponent } from './components/orders/order-create/order-create.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
+import { StoreManagmentComponent } from './components/store-managment/store-managment.component';
+import { WarehouseManagmentComponent } from './components/warehouse-managment/warehouse-managment.component';
 
 // let user_details = JSON.parse(localStorage.getItem('user_details'));
 
@@ -58,11 +60,24 @@ const routes: Routes = [
       { path: 'orders', component: CustomerOrdersComponent },
     ]
  },
+ { 
+  path: 'customer/:visitId',
+  canActivate: [AuthGuard],
+  component: CustomerViewComponent,
+  children: [
+    { path: '', pathMatch:'full', redirectTo:'overview'},
+    { path: 'overview', component: OverviewComponent },
+    { path: 'visits', component: CustomerVisitsComponent },
+    { path: 'orders', component: CustomerOrdersComponent },
+  ]
+},
   { path: 'suppliers',canActivate: [AuthGuard], component: SupplierComponent },
   { path: 'admin', canActivate: [AuthGuard], component:DefaultComponent, children: [
     { path: '', component:DashboardComponent },
     { path: 'dashboard', component:DashboardComponent },
   ]},
+  { path: 'store-managment', component: StoreManagmentComponent},
+  { path: 'warehouse-managment', canActivate: [AuthGuard], component: WarehouseManagmentComponent},
   { path: 'chat', component:ChatComponent },
   { path: 'cart', component: CartComponent },
   { path: 'order-products', component:OrderProductsComponent },

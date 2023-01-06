@@ -29,7 +29,7 @@ export class PermissionsDirective {
   
     let permissoins = this.permissoins.filter(p => {
         let userPermission = p.permission.flag_name;
-        // console.log(`${userPermission} - `,this.userPermissions);
+        console.log(`${userPermission} - `,this.userPermissions);
         return this.userPermissions.includes(userPermission);
     });
 

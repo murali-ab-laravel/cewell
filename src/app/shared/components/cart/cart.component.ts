@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductService } from '../../../services/product.service';
 import { HttpParams } from '@angular/common/http';
 import { AuthenticationService } from '../../../auth/services/authentication.service';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
 
   public cartList:any = [];
   public prescriptionList:any = [];
@@ -53,6 +53,8 @@ export class CartComponent implements OnInit {
       });
 
       this.total = this.subtotal - this.discount;
+      this.authenticationService.setTotalCartItems(this.TotalCartItem);
+
 
     })
   }
@@ -83,4 +85,10 @@ export class CartComponent implements OnInit {
       );
     }
   }
+
+  
+  ngOnDestroy() {
+    this.authenticationService.setTotalCartItems(0);
+  }
+
 }

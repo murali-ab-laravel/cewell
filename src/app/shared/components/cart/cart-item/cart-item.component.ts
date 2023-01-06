@@ -6,6 +6,7 @@ import { ProductService } from '../../../../services/product.service';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { CommonService } from '../../../../services/common.service';
+import { AuthenticationService } from '../../../../auth/services/authentication.service';
 
 const dialogConfig= new MatDialogConfig();
 dialogConfig.disableClose = true;
@@ -55,7 +56,8 @@ export class CartItemComponent implements OnInit {
     private dialog:MatDialog,
     private commonService: CommonService,
     private prescriptionService: PrescriptionService,
-    private productService:ProductService) { }
+    private productService:ProductService,
+    private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -317,6 +319,7 @@ export class CartItemComponent implements OnInit {
     this.productService.updateCart(this.cart.id, params).subscribe(
       (response:any)=>{
          console.log(response);
+         this.authenticationService.setTotalCartItems(response.totalCartItems);
          this.newEvent.emit("Delete card")
       },
       (err)=> console.log(err)
@@ -327,6 +330,7 @@ export class CartItemComponent implements OnInit {
    let params = { prescriptionId: this.cart.prescriptionId,price: this.cart.price, quantities: this.productQuantity, status: this.cart.status };
    this.productService.updateCart(this.cart.id, params).subscribe(
      (response:any)=>{
+        this.authenticationService.setTotalCartItems(response.totalCartItems);
         this.newEvent.emit("update card")
      },
      (err)=> console.log(err)

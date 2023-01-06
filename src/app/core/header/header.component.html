@@ -9,10 +9,13 @@
       </div><!-- az-header-center -->
       <div class="az-header-right">
         <div class="az-header-message">
-          <a routerLink="/cart"><i class="typcn typcn-shopping-cart"></i></a>
+          <a routerLink="/cart"><i [matBadge]="totalCartItems" matBadgeColor="warn" class="typcn typcn-shopping-cart"></i></a>
         </div>
         <div class="az-header-message">
-          <a routerLink="/chat"><i class="typcn typcn-messages"></i></a>
+          <a routerLink="/chat">
+            <!-- <mat-icon matBadge="15" matBadgeColor="warn">home</mat-icon> -->
+            <i  class="typcn typcn-messages"></i>
+          </a>
         </div>
        
         <div class="dropdown az-header-notification" ngbDropdown>
