@@ -50,6 +50,8 @@ import { InventoryComponent } from './components/inventory/inventory.component';
 import { StoreManagmentComponent } from './components/store-managment/store-managment.component';
 import { RequestCreateComponent } from './components/store-managment/request-create/request-create.component';
 import { WarehouseManagmentComponent } from './components/warehouse-managment/warehouse-managment.component';
+import { CreateStoreComponent } from './components/store-managment/create-store/create-store.component';
+import { RequestListComponent } from './components/store-managment/request-list/request-list.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +88,8 @@ import { WarehouseManagmentComponent } from './components/warehouse-managment/wa
     StoreManagmentComponent,
     RequestCreateComponent,
     WarehouseManagmentComponent,
+    CreateStoreComponent,
+    RequestListComponent,
   ],
   imports: [
     BrowserModule,

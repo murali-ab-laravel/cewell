@@ -1,34 +1,32 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { NgForm, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RolesService } from '../../../services/roles.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { CURRENT_PAGE, GET_ALL } from '../../../shared/constants/pagination.contacts';
 import { Role } from '../../../shared/models/Role';
 import { CommonService } from '../../../services/common.service';
-import { InventoryService } from '../../../services/inventory.service';
+import { StoresService } from '../../../services/stores.service';
 
 @Component({
-  selector: 'app-request-create',
-  templateUrl: './request-create.component.html',
-  styleUrls: ['./request-create.component.css']
+  selector: 'app-create-store',
+  templateUrl: './create-store.component.html',
+  styleUrls: ['./create-store.component.css']
 })
-export class RequestCreateComponent implements OnInit {
+export class CreateStoreComponent implements OnInit {
 
- 
  /** USING THIS TO RESET FORM  WITH OUT SHOWING FORMVALIDAITON ERRORS**/
  @ViewChild('myForm', {static: false}) myForm: NgForm;
- public inventoryForm:FormGroup;
+ public storeForm:FormGroup;
 
- public inventoryId:number = undefined;
+ public storeId:number = undefined;
 
  public btnText:string = "Create";
 
 
  public roles:Role[];
  public products:any[] = [];
- public stores:any[] = [];
- public inventory:any;
+ public store:any;
  public page_length:number = GET_ALL;
  public current_page:number = CURRENT_PAGE;
 
@@ -37,85 +35,62 @@ export class RequestCreateComponent implements OnInit {
     private commonService: CommonService,
     private fb:FormBuilder,
     private rolesService:RolesService,
-    private inventorysService: InventoryService,
+    private storesService: StoresService,
     @Inject(MAT_DIALOG_DATA) public data: any,) { 
-      this.inventoryId = data.id;
+      this.storeId = data.id;
     }
 
   ngOnInit(): void {
-    this.createinventoryForm();
-    this.getinventoryDetails();
+    this.createstoreForm();
+    this.getstoreDetails();
   }
 
-  getinventoryDetails():void{
-    this.inventorysService.createInventory().subscribe(
-      (res:any) => {
-          this.products = res.data.products;
-          this.stores = res.data.stores;
-      }
-    );
+  getstoreDetails():void{
+    // this.storesService.createStore().subscribe(
+    //   (res:any) => {
+    //       this.products = res.data.products;
+    //   }
+    // );
 
-    if(this.inventoryId != undefined){
+    if(this.storeId != undefined){
       this.btnText = "Update";
-      this.inventorysService.showInventory(this.inventoryId).subscribe(
+      this.storesService.showStore(this.storeId).subscribe(
         (res:any) => {
-            this.inventory = res.data.Inventory;
-            this.inventoryForm.patchValue({
-              productId: this.inventory.product_id,
-              count: this.inventory.available,
+            this.store = res.data.store;
+            this.storeForm.patchValue({
+              name: this.store.name,
+              address: this.store.address,
             });
         }
       );
     }
   }
   
-  createinventoryForm(){
-    this.inventoryForm = this.fb.group({
-      storeId: ['',[Validators.required]],
-      products: this.fb.array([this.createProduct()]),
-      // productId: ['',[Validators.required]],
-      // available: ['', [Validators.required]],
-      count: ['']
+  createstoreForm(){
+    this.storeForm = this.fb.group({
+      name: ['',[Validators.required]],
+      address: ['', [Validators.required]],
     })
   }
 
-  createProduct(): FormGroup {
-    return this.fb.group({
-      productId: ['',[Validators.required]],
-      available: ['', [Validators.required]],
-      count: ['']
-    });
-  }
-
-  addProduct(): void {
-    const products = this.inventoryForm.get('products') as FormArray;
-    products.push(this.createProduct());
-  }
-
-  removeProduct(index: number) {
-    (<FormArray>this.inventoryForm.get('products')).removeAt(index);
-  }
-
   get formValidate(){
-    return this.inventoryForm.controls;
+    return this.storeForm.controls;
   }
 
-  inventoryFormSubmit(){
+  storeFormSubmit(){
 
-    if(this.inventoryForm.invalid){
+    if(this.storeForm.invalid){
       return;
     }
 
-    if(this.inventoryId == undefined){
-
-      console.log(this.inventoryForm.value)
-      this.inventorysService.storeInventory(this.inventoryForm.value).subscribe(
+    if(this.storeId == undefined){
+      this.storesService.storeStore(this.storeForm.value).subscribe(
         (response)=>{
         
            if (response.success == true) {
-              this.inventoryForm.reset();
+              this.storeForm.reset();
               this.myForm.resetForm();
-              this.createinventoryForm();
+              this.createstoreForm();
             } 
 
             this.commonService.openAlert(response.message); 
@@ -126,7 +101,7 @@ export class RequestCreateComponent implements OnInit {
               if(err.status === 422) {
                 const validatonErrors = err.error.errors;
                 Object.keys(validatonErrors).forEach( prop => {
-                  const formControl = this.inventoryForm.get(prop);
+                  const formControl = this.storeForm.get(prop);
                   if(formControl){
                     formControl.setErrors({
                       serverError: validatonErrors[prop]
@@ -140,7 +115,7 @@ export class RequestCreateComponent implements OnInit {
 
     }else{
      
-      this.inventorysService.updateInventory(this.inventoryId,this.inventoryForm.value).subscribe(
+      this.storesService.updateStore(this.storeId,this.storeForm.value).subscribe(
         (response)=>{
             this.commonService.openAlert(response.message); 
             this.cancel();
@@ -150,7 +125,7 @@ export class RequestCreateComponent implements OnInit {
               if(err.status === 422) {
                 const validatonErrors = err.error.errors;
                 Object.keys(validatonErrors).forEach( prop => {
-                  const formControl = this.inventoryForm.get(prop);
+                  const formControl = this.storeForm.get(prop);
                   if(formControl){
                     formControl.setErrors({
                       serverError: validatonErrors[prop]
@@ -167,7 +142,6 @@ export class RequestCreateComponent implements OnInit {
   cancel():void{
     this.dialog.closeAll();
   }
-
  
 
 }

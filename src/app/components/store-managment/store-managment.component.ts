@@ -13,6 +13,8 @@ import { FormControl, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 import { InventoryService } from '../../services/inventory.service';
 import { RequestCreateComponent } from './request-create/request-create.component';
+import { StoresService } from '../../services/stores.service';
+import { CreateStoreComponent } from './create-store/create-store.component';
 
 const dialogConfig= new MatDialogConfig();
 dialogConfig.disableClose = true;
@@ -29,7 +31,7 @@ export class StoreManagmentComponent implements OnInit {
  
   @ViewChild('paginator', {static: true}) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['name','actions'];//,'model','color','size','frame_type','collection_type','material','prescription_type','glass_color','frame_width','catalog_no'
+  displayedColumns: string[] = ['name','address','actions'];//,'model','color','size','frame_type','collection_type','material','prescription_type','glass_color','frame_width','catalog_no'
  
   public PAGE_SIZE_OPTIONS_DATA:number[] = PAGE_SIZE_OPTIONS;
 
@@ -49,7 +51,7 @@ export class StoreManagmentComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private loaderService:LoaderService,
     private commonService:CommonService,
-    private inventoryService:InventoryService
+    private storesService:StoresService
   ) { 
     matIconRegistry.addSvgIcon(
       "filter",
@@ -66,12 +68,12 @@ export class StoreManagmentComponent implements OnInit {
   }
 
 
-  createCustomer():void{
+  createStore():void{
     dialogConfig.width ="60%";
     dialogConfig.data = {
       id: undefined,
     }
-    this.dialog.open(RequestCreateComponent,dialogConfig);
+    this.dialog.open(CreateStoreComponent,dialogConfig);
   
 
     // UPDATE CONTACT DETAILS AFTER CREATING THE CONTACT
@@ -86,7 +88,7 @@ export class StoreManagmentComponent implements OnInit {
       id: id,
     }
    
-    this.dialog.open(RequestCreateComponent,dialogConfig);
+    this.dialog.open(CreateStoreComponent,dialogConfig);
 
     // UPDATE CONTACT DETAILS AFTER CREATING THE CONTACT
     this.dialog.afterAllClosed.subscribe(e=>{
@@ -119,7 +121,7 @@ export class StoreManagmentComponent implements OnInit {
   deleteCustomer(id:string){
     let params = new HttpParams();
     params = params.set('id', id);
-    this.inventoryService.deleteInventory(params).subscribe(
+    this.storesService.deleteStore(params).subscribe(
       (res)=>{
           this.commonService.openAlert(res.message);
           this.getData(this.current_page, this.page_length);
@@ -141,7 +143,7 @@ export class StoreManagmentComponent implements OnInit {
       params = params.set('filter',filter);
     }
    
-    this.inventoryService.getInventories(params)
+    this.storesService.getStores(params)
     .subscribe((response: any) =>{
       this.dataSource = new MatTableDataSource<any>(response.data);
       this.dataSource.paginator = this.paginator;

@@ -26,6 +26,7 @@ import { OrderCreateComponent } from './components/orders/order-create/order-cre
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { StoreManagmentComponent } from './components/store-managment/store-managment.component';
 import { WarehouseManagmentComponent } from './components/warehouse-managment/warehouse-managment.component';
+import { RequestListComponent } from './components/store-managment/request-list/request-list.component';
 
 // let user_details = JSON.parse(localStorage.getItem('user_details'));
 
@@ -77,6 +78,7 @@ const routes: Routes = [
     { path: 'dashboard', component:DashboardComponent },
   ]},
   { path: 'store-managment', component: StoreManagmentComponent},
+  { path: 'purchage-order', component: RequestListComponent},
   { path: 'warehouse-managment', canActivate: [AuthGuard], component: WarehouseManagmentComponent},
   { path: 'chat', component:ChatComponent },
   { path: 'cart', component: CartComponent },

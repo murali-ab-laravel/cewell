@@ -1,37 +1,37 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { PAGE_SIZE_OPTIONS, PAGE_LENGTH, ITEMS_PER_PAGE, CURRENT_PAGE } from '../../shared/constants/pagination.contacts';
-import { User } from '../../auth/models/users';
+import { PAGE_SIZE_OPTIONS, PAGE_LENGTH, ITEMS_PER_PAGE, CURRENT_PAGE } from '../../../shared/constants/pagination.contacts';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { LoaderService } from '../../auth/services/loader.service';
-import { CommonService } from '../../services/common.service';
-import { CustomerService } from '../../services/customer.service';
-import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
+import { LoaderService } from '../../../auth/services/loader.service';
+import { CommonService } from '../../../services/common.service';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { HttpParams } from '@angular/common/http';
-import { ProductService } from '../../services/product.service';
 import { FormControl, Validators } from '@angular/forms';
-import { environment } from '../../../environments/environment';
-import { WarehouseService } from '../../services/warehouse.service';
+import { environment } from '../../../../environments/environment';
+import { InventoryService } from '../../../services/inventory.service';
+import { RequestCreateComponent } from '.././request-create/request-create.component';
+import { StoresService } from '../../../services/stores.service';
+import { CreateStoreComponent } from '.././create-store/create-store.component';
 
 const dialogConfig= new MatDialogConfig();
 dialogConfig.disableClose = true;
 dialogConfig.autoFocus = true;
 
 @Component({
-  selector: 'app-warehouse-managment',
-  templateUrl: './warehouse-managment.component.html',
-  styleUrls: ['./warehouse-managment.component.css']
+  selector: 'app-request-list',
+  templateUrl: './request-list.component.html',
+  styleUrls: ['./request-list.component.css']
 })
-export class WarehouseManagmentComponent implements OnInit {
+export class RequestListComponent implements OnInit {
 
   public SERVER_PATH = environment.REST_API_URL;
  
   @ViewChild('paginator', {static: true}) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['image','name','item_type','item_code','available','rim_type'];//,'model','color','size','frame_type','collection_type','material','prescription_type','glass_color','frame_width','catalog_no'
+  displayedColumns: string[] = ['storeName','productName','actions'];
  
   public PAGE_SIZE_OPTIONS_DATA:number[] = PAGE_SIZE_OPTIONS;
 
@@ -51,7 +51,8 @@ export class WarehouseManagmentComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private loaderService:LoaderService,
     private commonService:CommonService,
-    private WarehouseService: WarehouseService
+    private storesService:StoresService,
+    private inventoryService: InventoryService,
   ) { 
     matIconRegistry.addSvgIcon(
       "filter",
@@ -67,16 +68,13 @@ export class WarehouseManagmentComponent implements OnInit {
     });
   }
 
-  ngAfterViewInit(){
-    // this.dataSource.paginator = this.paginator;
-  }
 
-  createCustomer():void{
+  createRequest():void{
     dialogConfig.width ="60%";
     dialogConfig.data = {
       id: undefined,
     }
-    // this.dialog.open(ProductCreateComponent,dialogConfig);
+    this.dialog.open(RequestCreateComponent,dialogConfig);
   
 
     // UPDATE CONTACT DETAILS AFTER CREATING THE CONTACT
@@ -91,7 +89,7 @@ export class WarehouseManagmentComponent implements OnInit {
       id: id,
     }
    
-    // this.dialog.open(ProductCreateComponent,dialogConfig);
+    this.dialog.open(RequestCreateComponent,dialogConfig);
 
     // UPDATE CONTACT DETAILS AFTER CREATING THE CONTACT
     this.dialog.afterAllClosed.subscribe(e=>{
@@ -124,12 +122,12 @@ export class WarehouseManagmentComponent implements OnInit {
   deleteCustomer(id:string){
     let params = new HttpParams();
     params = params.set('id', id);
-    // this.WarehouseService.deleteProduct(params).subscribe(
-    //   (res)=>{
-    //       this.commonService.openAlert(res.message);
-    //       this.getData(this.current_page, this.page_length);
-    //   }
-    // )
+    this.storesService.deleteStore(params).subscribe(
+      (res)=>{
+          this.commonService.openAlert(res.message);
+          this.getData(this.current_page, this.page_length);
+      }
+    )
   }
 
   advancedFilter(){
@@ -146,7 +144,7 @@ export class WarehouseManagmentComponent implements OnInit {
       params = params.set('filter',filter);
     }
    
-    this.WarehouseService.getProducts(params)
+    this.inventoryService.getInventories(params)
     .subscribe((response: any) =>{
       this.dataSource = new MatTableDataSource<any>(response.data);
       this.dataSource.paginator = this.paginator;
@@ -161,5 +159,4 @@ export class WarehouseManagmentComponent implements OnInit {
   }
 
    
-
 }

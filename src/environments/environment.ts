@@ -8,7 +8,7 @@ export const environment = {
   ...defaultEnvironment,
   production: false,
   BASE_URL: 'http://localhost:4200',
-  REST_API_URL:'http://127.0.0.1:8000',
+  REST_API_URL: 'http://127.0.0.1:8000',
 };
 
 /*
